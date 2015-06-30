@@ -9,7 +9,7 @@
   </parent>
   <groupId>br.com.ulbra.tcc.rest.api</groupId>
   <artifactId>tcc-rest-api</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>tcc-rest-api</name>
   <properties>
