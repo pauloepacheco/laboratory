@@ -7,8 +7,11 @@ import javax.ws.rs.core.MediaType;
 
 import br.com.ulbra.tcc.restapi.constants.URIResource;
 
+//http://localhost:8080/tcc-rest-api/resource/getjson
+
 @Path(URIResource.MY_RESOURCE)
 public class MyResource {
+
 
 	@GET
 	@Path(URIResource.GET_JSON)
