@@ -9,5 +9,6 @@
   <description>TCC application</description>
   <modules>
     <module>tcc-rest-api</module>
+    <module>tcc-services</module>
   </modules>
 </project>

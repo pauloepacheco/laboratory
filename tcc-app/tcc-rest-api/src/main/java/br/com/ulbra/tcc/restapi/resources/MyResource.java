@@ -7,6 +7,13 @@ import javax.ws.rs.core.MediaType;
 
 import br.com.ulbra.tcc.restapi.constants.URIResource;
 
+/**
+ * The My Resource Sample Class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
+
 //http://localhost:8080/tcc-rest-api/resource/getjson
 
 @Path(URIResource.MY_RESOURCE)

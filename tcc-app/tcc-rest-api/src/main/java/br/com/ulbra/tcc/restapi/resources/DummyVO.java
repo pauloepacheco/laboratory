@@ -1,5 +1,12 @@
 package br.com.ulbra.tcc.restapi.resources;
 
+/**
+ * The Dummy VO Sample Class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
+
 public class DummyVO {
 
 	private String name;	
