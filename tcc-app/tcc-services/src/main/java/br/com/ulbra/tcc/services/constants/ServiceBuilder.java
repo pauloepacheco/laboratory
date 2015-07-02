@@ -6,8 +6,10 @@ package br.com.ulbra.tcc.services.constants;
  * @author Paulo Pacheco
  *
  */
-public interface ServiceRepository {
+public interface ServiceBuilder {
 
 	public static final String BASIC_SERVICE = "basicService";
+	
+	public static final String USER_SERVICE = "userService";
 	
 }

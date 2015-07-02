@@ -27,7 +27,7 @@ public class AbstractDao<T, ID extends Serializable> {
 				getGenericSuperclass()).getActualTypeArguments()[0];
     }
 	
-	@PersistenceContext
+	@PersistenceContext()
     public void setEntityManager(EntityManager entityMgrToSet) {    
         this.entityManager = entityMgrToSet;
     }
@@ -54,7 +54,7 @@ public class AbstractDao<T, ID extends Serializable> {
     
     @SuppressWarnings("unchecked")
 	public List<T> findAll() {
-    
+        	
         return entityManager.createQuery("Select t from " + 
         		persistentClass.getSimpleName() + " t").getResultList();
     }

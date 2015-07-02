@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.services;
+package br.com.ulbra.tcc.services.common;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

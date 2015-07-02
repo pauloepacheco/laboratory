@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.services;
+package br.com.ulbra.tcc.services.sample;
 
 /**
  * The Basic Service Sample Interface
