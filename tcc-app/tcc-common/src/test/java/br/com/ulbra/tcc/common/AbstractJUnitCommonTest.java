@@ -8,6 +8,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
+ * The Abstract Junit Common Test Class
+ * 
  * @author Paulo Pacheco
  *
  */

@@ -11,6 +11,12 @@ import br.com.ulbra.tcc.common.dao.user.UserDao;
 import br.com.ulbra.tcc.common.entity.User;
 import br.com.ulbra.tcc.common.AbstractJUnitCommonTest;
 
+/**
+ * The User Dao Test Implementation Class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
 public class UserDaoTestImpl extends AbstractJUnitCommonTest {
 
 	@Autowired
