@@ -26,7 +26,4 @@ public class UserDaoImpl extends AbstractDao<User, BigDecimal> implements UserDa
 		return findAll();		
 	}
 	
-	public void teste(){
-		
-	}
 }

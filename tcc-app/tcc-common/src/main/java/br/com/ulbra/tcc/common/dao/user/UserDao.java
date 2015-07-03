@@ -31,6 +31,5 @@ public interface UserDao{
 	 * @throws DataAccessException the data access exception
 	 */
 	public List<User> getAllRegisteredUsers() throws DataAccessException;
-	
-	public void teste();
+		
 }
