@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.ulbra.tcc.services.model.User;
-import br.com.ulbra.tcc.services.user.UserService;
+import br.com.ulbra.tcc.common.entity.User;
+import br.com.ulbra.tcc.services.common.AbstractJUnitServiceTest;
+import br.com.ulbra.tcc.services.service.user.UserService;
 
 
 /**
@@ -18,14 +19,13 @@ import br.com.ulbra.tcc.services.user.UserService;
  *
  */
 
-public class UserServiceImplTest extends AbstractServiceTest{
+public class UserServiceImplTest extends AbstractJUnitServiceTest{
 
 	@Autowired
 	private transient UserService userService;
 	
 	@Test
 	public void testFindRegisteredUserById(){
-		
 		User user = userService.findRegisteredUserById(
 				new BigDecimal("2"));
 		
@@ -34,7 +34,6 @@ public class UserServiceImplTest extends AbstractServiceTest{
 
 	@Test
 	public void testGetListRegisteredUsers(){
-		
 		List<User> user = userService.getListRegisteredUsers();
 		
 		if(user == null || user.size() == 0){

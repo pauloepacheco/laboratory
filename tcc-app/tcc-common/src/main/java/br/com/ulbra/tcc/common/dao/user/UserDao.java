@@ -1,12 +1,18 @@
-package br.com.ulbra.tcc.services.dao;
+package br.com.ulbra.tcc.common.dao.user;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
-import br.com.ulbra.tcc.services.model.User;
+import br.com.ulbra.tcc.common.entity.User;
 
+/**
+ * The User Dao Interface
+ * 
+ * @author Paulo Pacheco
+ *
+ */
 public interface UserDao{
 
 	/**
@@ -25,4 +31,6 @@ public interface UserDao{
 	 * @throws DataAccessException the data access exception
 	 */
 	public List<User> getAllRegisteredUsers() throws DataAccessException;
+	
+	public void teste();
 }

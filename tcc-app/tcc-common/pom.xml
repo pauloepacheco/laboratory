@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -5,19 +6,20 @@
     <artifactId>tcc-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>br.com.ulbra.tcc.services</groupId>
-  <artifactId>tcc-services</artifactId>
-  <packaging>jar</packaging>
-  <name>tcc-services</name>
-  <description>Service module for TCC project</description>
-  
-  	<properties>
-  		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  		<spring.version>3.2.5.RELEASE</spring.version>
-  		<hibernate.version>4.1.9.Final</hibernate.version>
-	</properties>
 
-	<dependencies>
+  <groupId>br.com.ulbra.tcc.common</groupId>
+  <artifactId>tcc-common</artifactId>
+  <version>0.0.2-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>tcc-common</name>
+  
+	 <properties>
+ 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 		<spring.version>3.2.5.RELEASE</spring.version>
+ 		<hibernate.version>4.1.9.Final</hibernate.version>
+	</properties>
+  
+  <dependencies>
 	
 	  <dependency>
 	    <groupId>org.springframework</groupId>
@@ -84,15 +86,6 @@
 		<artifactId>spring-test</artifactId>
 		<version>2.5</version>
 	  </dependency>
-	  
-	  <!--  Modules dependency -->
-	  <dependency>
-   		<groupId>br.com.ulbra.tcc.common</groupId>
-   		<artifactId>tcc-common</artifactId>
-   		<version>0.0.2-SNAPSHOT</version>
-  	  </dependency>
-  	  
-  	  <!--  Modules dependency - END-->
-	  
-	</dependencies>
+		  
+	</dependencies>  
 </project>

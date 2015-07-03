@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.services.user;
+package br.com.ulbra.tcc.services.service.user;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import br.com.ulbra.tcc.common.dao.user.UserDao;
+import br.com.ulbra.tcc.common.entity.User;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
-import br.com.ulbra.tcc.services.dao.UserDao;
-import br.com.ulbra.tcc.services.model.User;
+
 
 /**
  * The User Service Implementation Class
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
 			LOGGER.error("DataAccessException ocorred when trying to get the list " +
 					"of registered users " + dae.getLocalizedMessage(), dae);
 		}
-		return users;
+		return users;		
 	}
 }
 

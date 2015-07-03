@@ -7,7 +7,7 @@ package br.com.ulbra.tcc.services.constants;
  *
  */
 public interface ServiceBuilder {
-
+	
 	public static final String BASIC_SERVICE = "basicService";
 	
 	public static final String USER_SERVICE = "userService";

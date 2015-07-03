@@ -10,7 +10,7 @@
   <groupId>br.com.ulbra.tcc.rest.api</groupId>
   <artifactId>tcc-rest-api</artifactId>
   <version>0.0.2-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>tcc-rest-api</name>
   <repositories>
 		<repository>

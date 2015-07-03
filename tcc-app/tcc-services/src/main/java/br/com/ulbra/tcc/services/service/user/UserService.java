@@ -1,9 +1,9 @@
-package br.com.ulbra.tcc.services.user;
+package br.com.ulbra.tcc.services.service.user;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import br.com.ulbra.tcc.services.model.User;
+import br.com.ulbra.tcc.common.entity.User;
 
 /**
  * The User Service class

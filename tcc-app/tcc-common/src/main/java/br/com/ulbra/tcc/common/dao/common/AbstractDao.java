@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.services.dao;
+package br.com.ulbra.tcc.common.dao.common;
 
 import java.io.Serializable;
 
@@ -18,7 +18,8 @@ import java.util.List;
  */
 public class AbstractDao<T, ID extends Serializable> {
 		
-    private transient Class<T> persistentClass;    
+    private transient Class<T> persistentClass;  
+ 
 	protected transient EntityManager entityManager;
 	
 	@SuppressWarnings("unchecked")
@@ -28,32 +29,32 @@ public class AbstractDao<T, ID extends Serializable> {
     }
 	
 	@PersistenceContext()
-    public void setEntityManager(EntityManager entityMgrToSet) {    
+    protected void setEntityManager(EntityManager entityMgrToSet) {    
         this.entityManager = entityMgrToSet;
     }
 		
-    public T findById(ID theId) {
+    protected T findById(ID theId) {
     
         return entityManager.find(persistentClass, theId);
     }
     
-    public void persist(T entity) {
+    protected void persist(T entity) {
     
         entityManager.persist(entity);
     }
     
-    public void merge(T entity) {
+    protected void merge(T entity) {
     
         entityManager.merge(entity);
     }
     
-    public void remove(T entity) {
+    protected void remove(T entity) {
     
         entityManager.remove(entity);
     }
     
     @SuppressWarnings("unchecked")
-	public List<T> findAll() {
+	protected List<T> findAll() {
         	
         return entityManager.createQuery("Select t from " + 
         		persistentClass.getSimpleName() + " t").getResultList();

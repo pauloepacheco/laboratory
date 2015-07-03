@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.services.model;
+package br.com.ulbra.tcc.common.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
