@@ -23,7 +23,7 @@ public class AbstractDao<T, ID extends Serializable> {
 	protected transient EntityManager entityManager;
 	
 	@SuppressWarnings("unchecked")
-	public AbstractDao() {    	
+	protected AbstractDao() {    	
 		this.persistentClass = (Class<T>) ((ParameterizedType) getClass().
 				getGenericSuperclass()).getActualTypeArguments()[0];
     }
