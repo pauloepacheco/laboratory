@@ -10,5 +10,6 @@
   <modules>
     <module>tcc-services</module>
     <module>tcc-common</module>
+    <module>tcc-rest-api</module>
   </modules>
 </project>
