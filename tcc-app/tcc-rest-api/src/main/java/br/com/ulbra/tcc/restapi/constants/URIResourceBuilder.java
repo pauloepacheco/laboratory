@@ -11,13 +11,13 @@ public interface URIResourceBuilder {
 
 	public interface UserResource{
 		
-		public static final String USER_URI = "/user";		
+		public static final String USER_URI = "/ws/user";		
 		public static final String GET_ALL_USERS_URI = "/getusers";	
 	}
 	
 	public interface DataBaseResource{
 		
-		public static final String DATA_BASE_URI  = "/db";
-		public static final String GET_TABLES_URI  = "/gettables";	
+		public static final String DATA_BASE_URI  = "/ws/db";
+		public static final String GET_DB_INFO_URI  = "/getinfo";	
 	}
 }

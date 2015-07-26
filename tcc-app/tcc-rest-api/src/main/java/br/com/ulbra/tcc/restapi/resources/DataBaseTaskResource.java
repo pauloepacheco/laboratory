@@ -7,8 +7,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.com.ulbra.tcc.common.vo.table.TableVO;
 import br.com.ulbra.tcc.restapi.constants.URIResourceBuilder;
 import br.com.ulbra.tcc.services.common.ServiceLocator;
@@ -19,7 +17,7 @@ import br.com.ulbra.tcc.services.service.table.TableService;
 public class DataBaseTaskResource {
 
 	@GET
-	@Path(URIResourceBuilder.DataBaseResource.GET_TABLES_URI)
+	@Path(URIResourceBuilder.DataBaseResource.GET_DB_INFO_URI)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<TableVO> getTableDetails(){
 		
