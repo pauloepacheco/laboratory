@@ -14,15 +14,11 @@
         	<param-value>true</param-value>
     	</init-param>
     	
-    	<!--  spring -->
-        	<context-param>
-				<param-name>contextConfigLocation</param-name>
-				<param-value>classpath:applicationContext.xml</param-value>
-			</context-param>
-    	<!--  -->
-    	
-    	
-        <load-on-startup>1</load-on-startup>
+       	<context-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:tcc-services.xml</param-value>
+		</context-param>
+       <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
