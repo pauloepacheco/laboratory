@@ -1,0 +1,31 @@
+package br.com.ulbra.tcc.common.dao.common;
+import org.springframework.stereotype.Component;
+
+import br.com.ulbra.tcc.common.vo.column.ColumnVO;
+import br.com.ulbra.tcc.common.vo.table.TableVO;
+
+@Component
+public class QueryTransformer {
+
+	public TableVO transformResultsIntoTableVO(Object result){
+		
+		int index = 0;		
+		TableVO tableVO = new TableVO();		
+		Object[] row = (Object[]) result;				
+		
+		tableVO.setTableName((String) row[index]);
+		tableVO.setTableSchema((String) row[++index]);
+		return tableVO;
+	}
+	
+	public ColumnVO transformResultsIntoColumnVO(Object result){
+		
+		int index = 0;		
+		ColumnVO columnVO = new ColumnVO();		
+		Object[] row = (Object[]) result;				
+		
+		columnVO.setColumnName((String) row[index]);
+		columnVO.setDataType((String) row[++index]);
+		return columnVO;
+	}
+}

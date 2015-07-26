@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.common.vo;
+package br.com.ulbra.tcc.vo.user;
 
 public class UserVO {
 
