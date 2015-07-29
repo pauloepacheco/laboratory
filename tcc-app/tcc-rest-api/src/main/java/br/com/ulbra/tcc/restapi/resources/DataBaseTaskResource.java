@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import br.com.ulbra.tcc.common.vo.table.TableVO;
 import br.com.ulbra.tcc.restapi.constants.URIResourceBuilder;
@@ -19,12 +20,12 @@ public class DataBaseTaskResource {
 	@GET
 	@Path(URIResourceBuilder.DataBaseResource.GET_DB_INFO_URI)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<TableVO> getTableDetails(){
+	public Response getTableDetails(){
 		
 		
 		TableService tableService = ServiceLocator.
 				getServiceInstance(ServiceBuilder.TABLE_SERVICE, TableService.class);
-						
-		return tableService.getTablesAndColumnsFromDB();
+								
+		return Response.status(200).entity(tableService.getTablesAndColumnsFromDB()).build();
 	}
 }
