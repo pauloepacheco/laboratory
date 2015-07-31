@@ -18,6 +18,13 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 })
 public class SchemaVO {
 
+	public SchemaVO() {}
+	
+	public SchemaVO(String schemaName) {
+		super();
+		this.schemaName = schemaName;
+	}
+
 	private String schemaName;
 	private List<TableVO> tableVOs;
 	

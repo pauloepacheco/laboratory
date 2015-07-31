@@ -15,16 +15,6 @@ import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 @Component
 public class QueryTransformer {
 
-	public SchemaVO transformResultsIntoSchemaVO(Object result){
-		
-		int index = 0;		
-		SchemaVO schemaVO = new SchemaVO();		
-		Object[] row = (Object[]) result;				
-		
-		schemaVO.setSchemaName((String) row[index]);
-		return schemaVO;
-	}
-	
 	public TableVO transformResultsIntoTableVO(Object result){
 		
 		int index = 0;		

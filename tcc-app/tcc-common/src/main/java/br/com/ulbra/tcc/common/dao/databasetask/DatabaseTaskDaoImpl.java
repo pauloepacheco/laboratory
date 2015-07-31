@@ -2,7 +2,10 @@ package br.com.ulbra.tcc.common.dao.databasetask;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Query;
 
@@ -27,7 +30,7 @@ import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 @Repository
 public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> implements DatabaseTaskDao, DaoConstants{
 
-	private static final String GET_SCHEMAS_QUERY = "SELECT table_schema, table_catalog " + 
+	private static final String GET_SCHEMAS_QUERY = "SELECT table_schema " + 
 			"FROM information_schema.tables WHERE table_schema not in (?, ?);";
 	
 	private static final String GET_TABLES_QUERY = "SELECT table_name, table_schema " +
@@ -48,20 +51,17 @@ public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> impleme
 		query.setParameter(++index, PostgressSchema.PG_CATALOG_SCHEMA);
 		query.setParameter(++index, PostgressSchema.PG_INFORMATION_SCHEMA);
 		
-		final List<Object> resultList = query.getResultList();
+
+		final Set<String> resultList = new HashSet<String>(query.getResultList());
 		
 		if(resultList != null && !resultList.isEmpty()){
 			
 			schemaVOs = new ArrayList<SchemaVO>();
-			SchemaVO schemaVO = new SchemaVO();
 			
-			for (Object result : resultList) {
+			for (String schemaName : resultList) {
 				
-				schemaVO = queryTransformer.
-						transformResultsIntoSchemaVO(result);
-				
-				List<TableVO> tableVOs = getTablesFromSchema(
-						schemaVO.getSchemaName());
+				SchemaVO schemaVO = new SchemaVO(schemaName);				
+				List<TableVO> tableVOs = getTablesFromSchema(schemaName);
 				
 				schemaVO.setTableVOs(tableVOs);
 				schemaVOs.add(schemaVO);
