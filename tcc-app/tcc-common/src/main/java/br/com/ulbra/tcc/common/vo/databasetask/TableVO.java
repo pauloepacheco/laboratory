@@ -1,21 +1,25 @@
-package br.com.ulbra.tcc.common.vo.table;
+package br.com.ulbra.tcc.common.vo.databasetask;
 
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-import br.com.ulbra.tcc.common.vo.column.ColumnVO;
+/**
+ * The TableVO Class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
 
 @JsonPropertyOrder({ 
 	"table", 
-	"schema",
 	"columns"
 })
+
 public class TableVO {
 	
 	private String tableName;
-	private String tableSchema;	
 	private List<ColumnVO> columnVOs;
 	
 	@JsonProperty("table")
@@ -25,15 +29,6 @@ public class TableVO {
 
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
-	}
-
-	@JsonProperty("schema")
-	public String getTableSchema() {
-		return tableSchema;
-	}
-
-	public void setTableSchema(String tableSchema) {
-		this.tableSchema = tableSchema;
 	}
 
 	@JsonProperty("columns")

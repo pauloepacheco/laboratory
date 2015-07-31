@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.services.service.table;
+package br.com.ulbra.tcc.services.service.databasetask;
 
 import java.util.List;
 
@@ -9,36 +9,36 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.ulbra.tcc.common.dao.table.TableDao;
-import br.com.ulbra.tcc.common.vo.table.TableVO;
+import br.com.ulbra.tcc.common.dao.databasetask.DatabaseTaskDao;
+import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
 
 /**
- * The Table Service Implementation Class
+ * The DatabaseTaskServiceImpl Class
  * 
  * @author Paulo Pacheco
  *
  */
 
 @Service(ServiceBuilder.TABLE_SERVICE)
-public class TableServiceImpl implements TableService {
+public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 	
-	private static final Logger LOGGER = Logger.getLogger(TableServiceImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(DatabaseTaskServiceImpl.class);
 	
 	@Autowired
-	private transient TableDao tableDao;
+	private transient DatabaseTaskDao tableDao;
 
 	@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
-	public List<TableVO> getTablesAndColumnsFromDB() {		
+	public List<SchemaVO> getTablesAndColumnsFromDB() {		
 		
-		List<TableVO> tableVOs = null;
+		List<SchemaVO> schemaVOs = null;
 		
 		try{
-			tableVOs = tableDao.getTablesFromDB();			
+			schemaVOs = tableDao.getSchemasFromDB();			
 		} catch(DataAccessException dae){
 			LOGGER.error("DataAccessException when getting tables from DB " + 
 					dae.getMessage(),dae);
 		}
-		return tableVOs;
+		return schemaVOs;
 	}
 }

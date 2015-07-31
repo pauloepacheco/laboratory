@@ -15,7 +15,7 @@ public interface URIResourceBuilder {
 		public static final String GET_ALL_USERS_URI = "/getusers";	
 	}
 	
-	public interface DataBaseResource{
+	public interface DataBaseTaskResource{
 		
 		public static final String DATA_BASE_URI  = "/ws/db";
 		public static final String GET_DB_INFO_URI  = "/getinfo";	

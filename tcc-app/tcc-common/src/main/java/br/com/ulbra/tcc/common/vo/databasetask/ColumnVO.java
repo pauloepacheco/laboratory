@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.common.vo.column;
+package br.com.ulbra.tcc.common.vo.databasetask;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;

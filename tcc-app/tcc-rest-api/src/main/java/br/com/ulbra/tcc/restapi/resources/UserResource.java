@@ -15,6 +15,13 @@ import br.com.ulbra.tcc.services.common.ServiceLocator;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
 import br.com.ulbra.tcc.services.service.user.UserService;
 
+/**
+ * The UserResource Class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
+
 @Component
 @Path(URIResourceBuilder.UserResource.USER_URI)
 public class UserResource implements URIResourceBuilder {

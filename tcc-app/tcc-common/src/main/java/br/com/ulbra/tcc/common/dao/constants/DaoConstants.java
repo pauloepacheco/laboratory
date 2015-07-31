@@ -1,6 +1,11 @@
 package br.com.ulbra.tcc.common.dao.constants;
 
 public interface DaoConstants {
-
-	public static final String DEFAULT_SCHEMA = "public";
+	
+	public interface PostgressSchema{
+		
+		public static final String PG_CATALOG_SCHEMA = "pg_catalog";	
+		public static final String PG_INFORMATION_SCHEMA = "information_schema";
+	}
+	
 }

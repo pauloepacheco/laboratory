@@ -4,6 +4,12 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
 import com.sun.jersey.spi.container.ContainerResponseFilter;
 
+/**
+ * The CORSFilter Class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
 public class CORSFilter implements ContainerResponseFilter {
 
     public ContainerResponse filter(ContainerRequest request,

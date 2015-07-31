@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.common.dao.table;
+package br.com.ulbra.tcc.common.dao.databasetask;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,19 +13,23 @@ import org.springframework.stereotype.Repository;
 import br.com.ulbra.tcc.common.dao.common.AbstractDao;
 import br.com.ulbra.tcc.common.dao.common.QueryTransformer;
 import br.com.ulbra.tcc.common.dao.constants.DaoConstants;
-import br.com.ulbra.tcc.common.vo.column.ColumnVO;
-import br.com.ulbra.tcc.common.vo.table.TableVO;
+import br.com.ulbra.tcc.common.vo.databasetask.ColumnVO;
+import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
+import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 
 /**
- * The Table Dao Class
+ * The DatabaseTaskDaoImpl Class
  * 
  * @author Paulo Pacheco
  *
  */
 
 @Repository
-public class TableDaoImpl extends AbstractDao<Object, BigDecimal> implements TableDao{
+public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> implements DatabaseTaskDao, DaoConstants{
 
+	private static final String GET_SCHEMAS_QUERY = "SELECT table_schema, table_catalog " + 
+			"FROM information_schema.tables WHERE table_schema not in (?, ?);";
+	
 	private static final String GET_TABLES_QUERY = "SELECT table_name, table_schema " +
 			"FROM information_schema.tables WHERE table_schema = ?;";
 	
@@ -35,14 +39,46 @@ public class TableDaoImpl extends AbstractDao<Object, BigDecimal> implements Tab
 	@Autowired
 	private transient QueryTransformer queryTransformer;
 	
-	public List<TableVO> getTablesFromDB() throws DataAccessException {
+	public List<SchemaVO> getSchemasFromDB() throws DataAccessException {
+
+		final Query query = entityManager.createNativeQuery(GET_SCHEMAS_QUERY);
+		int index = 0;
+		List<SchemaVO> schemaVOs = null;
+		
+		query.setParameter(++index, PostgressSchema.PG_CATALOG_SCHEMA);
+		query.setParameter(++index, PostgressSchema.PG_INFORMATION_SCHEMA);
+		
+		final List<Object> resultList = query.getResultList();
+		
+		if(resultList != null && !resultList.isEmpty()){
+			
+			schemaVOs = new ArrayList<SchemaVO>();
+			SchemaVO schemaVO = new SchemaVO();
+			
+			for (Object result : resultList) {
+				
+				schemaVO = queryTransformer.
+						transformResultsIntoSchemaVO(result);
+				
+				List<TableVO> tableVOs = getTablesFromSchema(
+						schemaVO.getSchemaName());
+				
+				schemaVO.setTableVOs(tableVOs);
+				schemaVOs.add(schemaVO);
+			}
+		}
+		
+		return schemaVOs;
+	}	
+	
+	public List<TableVO> getTablesFromSchema(final String schemaName) throws DataAccessException {
 		
 		final Query query = entityManager.createNativeQuery(GET_TABLES_QUERY);
 		
 		int index = 0;
 		List<TableVO> tableVOs = null;
 		
-		query.setParameter(++index, DaoConstants.DEFAULT_SCHEMA);
+		query.setParameter(++index, schemaName);
 		
 		final List<Object> resultList = query.getResultList();
 		
@@ -57,7 +93,7 @@ public class TableDaoImpl extends AbstractDao<Object, BigDecimal> implements Tab
 				tableVO = queryTransformer.
 						transformResultsIntoTableVO(result);
 				
-				List<ColumnVO> columnVOs = getColumnsFromTable(
+				List<ColumnVO> columnVOs = getColumnsFromTable(schemaName, 
 						tableVO.getTableName());
 				
 				tableVO.setColumnVOs(columnVOs);
@@ -67,15 +103,15 @@ public class TableDaoImpl extends AbstractDao<Object, BigDecimal> implements Tab
 		return tableVOs;
 	}
 
-	public List<ColumnVO> getColumnsFromTable(final String tableName) 
-			throws DataAccessException {
+	public List<ColumnVO> getColumnsFromTable(final String schemaName, 
+			final String tableName) throws DataAccessException {
 		
 		int index = 0;
 		List<ColumnVO> columnVOs = null;
 		
 		final Query query = entityManager.createNativeQuery(GET_COLUMNS_FROM_TABLE_QUERY);
 		query.setParameter(++index, tableName);
-		query.setParameter(++index, DaoConstants.DEFAULT_SCHEMA);
+		query.setParameter(++index, schemaName);
 
 		final List<Object> resultList = query.getResultList();
 		
@@ -90,5 +126,5 @@ public class TableDaoImpl extends AbstractDao<Object, BigDecimal> implements Tab
 		}
 		
 		return columnVOs;
-	}	
+	}
 }
