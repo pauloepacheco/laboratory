@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
-import br.com.ulbra.tcc.common.vo.databasetask.ColumnVO;
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 
@@ -22,5 +21,5 @@ public interface DatabaseTaskDao {
 	
 	List<TableVO> getTablesFromSchema(String schemaName) throws DataAccessException;
 	
-	List<ColumnVO> getColumnsFromTable(String schemaName, String tableName) throws DataAccessException;
+	TableVO getColumnsFromTable(String schemaName, String tableName) throws DataAccessException;
 }

@@ -13,15 +13,25 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
  */
 
 @JsonPropertyOrder({ 
+	"schema", 
 	"table", 
 	"columns"
 })
 
 public class TableVO {
 	
+	private String schema;
 	private String tableName;
 	private List<ColumnVO> columnVOs;
 	
+	public String getSchema() {
+		return schema;
+	}
+
+	public void setSchema(String schema) {
+		this.schema = schema;
+	}
+
 	@JsonProperty("table")
 	public String getTableName() {
 		return tableName;

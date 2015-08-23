@@ -3,7 +3,6 @@ package br.com.ulbra.tcc.common.dao.databasetask;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -93,21 +92,18 @@ public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> impleme
 				tableVO = queryTransformer.
 						transformResultsIntoTableVO(result);
 				
-				List<ColumnVO> columnVOs = getColumnsFromTable(schemaName, 
-						tableVO.getTableName());
-				
-				tableVO.setColumnVOs(columnVOs);
 				tableVOs.add(tableVO);
 			}
 		}	
 		return tableVOs;
 	}
 
-	public List<ColumnVO> getColumnsFromTable(final String schemaName, 
+	public TableVO getColumnsFromTable(final String schemaName, 
 			final String tableName) throws DataAccessException {
 		
 		int index = 0;
 		List<ColumnVO> columnVOs = null;
+		TableVO tableVO = null;
 		
 		final Query query = entityManager.createNativeQuery(GET_COLUMNS_FROM_TABLE_QUERY);
 		query.setParameter(++index, tableName);
@@ -117,14 +113,19 @@ public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> impleme
 		
 		if(resultList != null && !resultList.isEmpty()){
 			
+			tableVO = new TableVO();
+			tableVO.setTableName(tableName);
+			tableVO.setSchema(schemaName);
 			columnVOs = new ArrayList<ColumnVO>();
 			
 			for (Object result : resultList) {
 				columnVOs.add(queryTransformer.
 						transformResultsIntoColumnVO(result));
 			}
+			
+			tableVO.setColumnVOs(columnVOs);
 		}
 		
-		return columnVOs;
+		return tableVO;
 	}
 }

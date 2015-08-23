@@ -7,11 +7,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
-import br.com.ulbra.tcc.common.dao.constants.DaoConstants;
-import br.com.ulbra.tcc.common.dao.databasetask.DatabaseTaskDao;
-import br.com.ulbra.tcc.common.vo.databasetask.ColumnVO;
-import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.AbstractJUnitCommonTest;
+import br.com.ulbra.tcc.common.dao.databasetask.DatabaseTaskDao;
+import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
+import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 
 /**
  * The DatabaseTaskDaoImplTest Class
@@ -43,9 +42,9 @@ public class DatabaseTaskDaoImplTest extends AbstractJUnitCommonTest{
 	@Test
 	public void testGetColumnsFromTable(){
 		try{
-			List<ColumnVO> ColumnVOs = databaseTaskDao.getColumnsFromTable("public", "phone");
+			TableVO tableVO = databaseTaskDao.getColumnsFromTable("public", "phone");
 			
-			if(ColumnVOs != null && !ColumnVOs.isEmpty()){
+			if(tableVO != null){
 				Assert.assertTrue(true);
 			} else{
 				Assert.assertTrue(false);

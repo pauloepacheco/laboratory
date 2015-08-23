@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ulbra.tcc.common.dao.databasetask.DatabaseTaskDao;
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
+import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
+import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
 
 /**
@@ -26,19 +28,31 @@ public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTaskServiceImpl.class);
 	
 	@Autowired
-	private transient DatabaseTaskDao tableDao;
+	private transient DatabaseTaskDao databaseTaskDao;
 
 	@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
-	public List<SchemaVO> getTablesAndColumnsFromDB() {		
+	public List<SchemaVO> getInitialLoad() {		
 		
 		List<SchemaVO> schemaVOs = null;
 		
 		try{
-			schemaVOs = tableDao.getSchemasFromDB();			
+			schemaVOs = databaseTaskDao.getSchemasFromDB();			
 		} catch(DataAccessException dae){
 			LOGGER.error("DataAccessException when getting tables from DB " + 
 					dae.getMessage(),dae);
 		}
 		return schemaVOs;
+	}
+
+	public TableVO getColumnsFromTable(TableRequestWS tableRequest) {
+		TableVO tableVO = null;
+		
+		try{
+			tableVO = databaseTaskDao.getColumnsFromTable(tableRequest.getSchema(), tableRequest.getTable());
+		} catch(DataAccessException dae){
+			LOGGER.error("DataAccessException when getting columns from table " + 
+					dae.getMessage(),dae);
+		}
+		return tableVO;
 	}
 }

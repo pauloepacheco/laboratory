@@ -28,7 +28,7 @@ public class DatabaseTaskServiceImplTest extends AbstractJUnitServiceTest{
 	public void testGetTablesFromDB(){
 		
 		try{
-			List<SchemaVO> schemaVOs = databaseTaskService.getTablesAndColumnsFromDB();
+			List<SchemaVO> schemaVOs = databaseTaskService.getInitialLoad();
 			if(schemaVOs != null && !schemaVOs.isEmpty()){
 				Assert.assertTrue(true);
 			} else {

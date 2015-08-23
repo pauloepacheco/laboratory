@@ -18,6 +18,7 @@ public interface URIResourceBuilder {
 	public interface DataBaseTaskResource{
 		
 		public static final String DATA_BASE_URI  = "/ws/db";
-		public static final String GET_DB_INFO_URI  = "/getinfo";	
+		public static final String GET_DB_INFO_URI  = "/getInitialLoad";
+		public static final String GET_COLUMNS_URI  = "/getColumns";
 	}
 }

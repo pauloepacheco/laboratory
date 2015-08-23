@@ -5,12 +5,14 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
 @JsonPropertyOrder({ 
 	"column", 
-	"type"
+	"type",
+	"regex"
 })
 public class ColumnVO {
 
 	private String columnName;	
 	private String dataType;
+	private String regex;
 
 	@JsonProperty("column")
 	public String getColumnName() {
@@ -28,5 +30,14 @@ public class ColumnVO {
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
+	}
+
+	@JsonProperty("regex")
+	public String getRegex() {
+		return regex;
+	}
+
+	public void setRegex(String regex) {
+		this.regex = regex;
 	}
 }
