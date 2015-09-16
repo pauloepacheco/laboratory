@@ -1,7 +1,10 @@
 package br.com.ulbra.tcc.restapi.resources;
 
+import java.util.List;
+
 import javax.ws.rs.core.Response;
 
+import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
 
 /**
@@ -15,4 +18,6 @@ public interface DataBaseTaskResource {
 	public Response getTableDetails();
 	
 	public Response getColumns(TableRequestWS requestWS);
+	
+	public Response processRequest(List<TableVO> request);
 }

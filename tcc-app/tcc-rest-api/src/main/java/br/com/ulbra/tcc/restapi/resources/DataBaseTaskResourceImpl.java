@@ -24,6 +24,7 @@ import br.com.ulbra.tcc.services.service.databasetask.DatabaseTaskService;
  * @author Paulo Pacheco
  *
  */
+
 @Path(URIResourceBuilder.DataBaseTaskResource.DATA_BASE_URI)
 public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 
@@ -32,10 +33,10 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTableDetails(){
 		
-		DatabaseTaskService tableService = ServiceLocator.
-				getServiceInstance(ServiceBuilder.TABLE_SERVICE, DatabaseTaskService.class);
+		final DatabaseTaskService dbTaskService = ServiceLocator.
+				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
 			
-		List<SchemaVO> schemaVOList = tableService.getInitialLoad();
+		List<SchemaVO> schemaVOList = dbTaskService.getInitialLoad();
 		return Response.status(200).entity(schemaVOList).build();		
 	}
 	
@@ -45,17 +46,32 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getColumns(TableRequestWS requestWS) {
 
-		DatabaseTaskService columnService = ServiceLocator.
-				getServiceInstance(ServiceBuilder.TABLE_SERVICE, DatabaseTaskService.class);
+		final DatabaseTaskService dbTaskService = ServiceLocator.
+				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
 		
 		TableVO tableVO = null;
 		
 		if(requestWS != null){
-			tableVO = columnService.getColumnsFromTable(requestWS);
+			tableVO = dbTaskService.getColumnsFromTable(requestWS);
 		} else {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
 		return Response.status(200).entity(tableVO).build();
+	}
+	
+	@POST
+	@Path(URIResourceBuilder.DataBaseTaskResource.PROCESS_DATA_QUALITY_REQUEST)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response processRequest(List<TableVO> request){
+				
+		final DatabaseTaskService dbTaskService = ServiceLocator.
+				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
+		
+		dbTaskService.processDataQualityTask(request);
+		
+		return null;
+		
 	}
 }
