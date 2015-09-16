@@ -12,6 +12,6 @@ public interface ServiceBuilder {
 	
 	public static final String USER_SERVICE = "userService";
 	
-	public static final String TABLE_SERVICE = "tableService";
+	public static final String DATABASE_TASK_SERVICE = "databaseTaskService";
 	
 }

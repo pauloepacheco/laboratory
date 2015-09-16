@@ -18,5 +18,7 @@ public interface DatabaseTaskService {
 	List<SchemaVO> getInitialLoad();
 	
 	TableVO getColumnsFromTable(TableRequestWS tableRequest);
+	
+	void processDataQualityTask(List<TableVO> tableVO);
 
 }

@@ -22,7 +22,7 @@ import br.com.ulbra.tcc.services.constants.ServiceBuilder;
  *
  */
 
-@Service(ServiceBuilder.TABLE_SERVICE)
+@Service(ServiceBuilder.DATABASE_TASK_SERVICE)
 public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 	
 	private static final Logger LOGGER = Logger.getLogger(DatabaseTaskServiceImpl.class);
@@ -54,5 +54,15 @@ public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 					dae.getMessage(),dae);
 		}
 		return tableVO;
+	}
+
+	public void processDataQualityTask(List<TableVO> tableVO) {
+		
+		for (TableVO vo : tableVO) {
+			if(vo != null){
+				
+			}
+		}
+		
 	}
 }
