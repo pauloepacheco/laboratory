@@ -2,12 +2,22 @@ package br.com.ulbra.tcc.common.vo.databasetask;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+/**
+ * The ColumnVO Class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
 
 @JsonPropertyOrder({ 
 	"column", 
 	"type",
 	"regex"
 })
+
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class ColumnVO {
 
 	private String columnName;	
@@ -19,6 +29,7 @@ public class ColumnVO {
 		return columnName;
 	}
 
+	@JsonProperty("column")
 	public void setColumnName(String columnName) {
 		this.columnName = columnName;
 	}
@@ -28,6 +39,7 @@ public class ColumnVO {
 		return dataType;
 	}
 
+	@JsonProperty("type")
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
 	}
@@ -37,6 +49,7 @@ public class ColumnVO {
 		return regex;
 	}
 
+	@JsonProperty("regex")
 	public void setRegex(String regex) {
 		this.regex = regex;
 	}

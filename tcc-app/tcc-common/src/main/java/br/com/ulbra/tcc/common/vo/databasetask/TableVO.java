@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * The TableVO Class
@@ -18,16 +19,19 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 	"columns"
 })
 
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class TableVO {
 	
 	private String schema;
 	private String tableName;
 	private List<ColumnVO> columnVOs;
 	
+	@JsonProperty("schema")
 	public String getSchema() {
 		return schema;
 	}
 
+	@JsonProperty("schema")
 	public void setSchema(String schema) {
 		this.schema = schema;
 	}
@@ -37,6 +41,7 @@ public class TableVO {
 		return tableName;
 	}
 
+	@JsonProperty("table")
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
@@ -46,6 +51,7 @@ public class TableVO {
 		return columnVOs;
 	}
 
+	@JsonProperty("columns")
 	public void setColumnVOs(List<ColumnVO> columnVOs) {
 		this.columnVOs = columnVOs;
 	}

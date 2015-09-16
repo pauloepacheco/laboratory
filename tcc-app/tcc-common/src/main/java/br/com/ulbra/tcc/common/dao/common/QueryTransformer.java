@@ -2,7 +2,6 @@ package br.com.ulbra.tcc.common.dao.common;
 import org.springframework.stereotype.Component;
 
 import br.com.ulbra.tcc.common.vo.databasetask.ColumnVO;
-import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 
 /**
