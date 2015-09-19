@@ -18,11 +18,11 @@ import br.com.ulbra.tcc.common.entity.User;
 @Repository
 public class UserDaoImpl extends AbstractDao<User, BigDecimal> implements UserDao {
 
-	public User findUserById(BigDecimal userId){
+	public User findUserById(BigDecimal userId) throws DataAccessException {
 		return findById(userId);
 	}
 	
-	public List<User> getAllRegisteredUsers() throws DataAccessException{		
+	public List<User> getAllRegisteredUsers() throws DataAccessException {		
 		return findAll();		
 	}
 	

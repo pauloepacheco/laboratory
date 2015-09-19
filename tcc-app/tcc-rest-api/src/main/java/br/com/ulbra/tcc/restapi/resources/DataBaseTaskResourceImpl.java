@@ -10,6 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.log4j.Logger;
+
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
@@ -28,6 +30,8 @@ import br.com.ulbra.tcc.services.service.databasetask.DatabaseTaskService;
 @Path(URIResourceBuilder.DataBaseTaskResource.DATA_BASE_URI)
 public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 
+	private static final Logger LOGGER = Logger.getLogger(DataBaseTaskResourceImpl.class);
+	
 	@POST
 	@Path(URIResourceBuilder.DataBaseTaskResource.GET_DB_INFO_URI)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -35,6 +39,8 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 		
 		final DatabaseTaskService dbTaskService = ServiceLocator.
 				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
+		
+		LOGGER.info("Getting table details to start application");
 			
 		List<SchemaVO> schemaVOList = dbTaskService.getInitialLoad();
 		return Response.status(200).entity(schemaVOList).build();		
@@ -52,26 +58,13 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 		TableVO tableVO = null;
 		
 		if(requestWS != null){
+			LOGGER.debug("Getting column for table[" + requestWS.getTable() + "].");
 			tableVO = dbTaskService.getColumnsFromTable(requestWS);
 		} else {
+			LOGGER.debug("Parameters to get columns for table are invalid.");
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
 		return Response.status(200).entity(tableVO).build();
-	}
-	
-	@POST
-	@Path(URIResourceBuilder.DataBaseTaskResource.PROCESS_DATA_QUALITY_REQUEST)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response processRequest(List<TableVO> request){
-				
-		final DatabaseTaskService dbTaskService = ServiceLocator.
-				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
-		
-		dbTaskService.processDataQualityTask(request);
-		
-		return null;
-		
 	}
 }

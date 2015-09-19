@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import br.com.ulbra.tcc.common.entity.User;
@@ -26,6 +27,8 @@ import br.com.ulbra.tcc.services.service.user.UserService;
 @Path(URIResourceBuilder.UserResource.USER_URI)
 public class UserResourceImpl implements URIResourceBuilder {
 	
+	private static final Logger LOGGER = Logger.getLogger(UserResourceImpl.class);
+	
 	@GET
 	@Path(URIResourceBuilder.UserResource.GET_ALL_USERS_URI)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -33,6 +36,8 @@ public class UserResourceImpl implements URIResourceBuilder {
 				
 		UserService userService = ServiceLocator.
 				getServiceInstance(ServiceBuilder.USER_SERVICE, UserService.class);
+		
+		LOGGER.info("Request to get the list of registed users initiated.");
 		
 		return userService.getListRegisteredUsers();
 	}

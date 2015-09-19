@@ -8,10 +8,8 @@ package br.com.ulbra.tcc.services.constants;
  */
 public interface ServiceBuilder {
 	
-	public static final String BASIC_SERVICE = "basicService";
-	
-	public static final String USER_SERVICE = "userService";
-	
-	public static final String DATABASE_TASK_SERVICE = "databaseTaskService";
-	
+	static final String BASIC_SERVICE = "basicService";
+	static final String USER_SERVICE = "userService";
+	static final String DATABASE_TASK_SERVICE = "databaseTaskService";
+	static final String DATA_QUALITY_VALIDATOR = "dataQualityValidator";
 }

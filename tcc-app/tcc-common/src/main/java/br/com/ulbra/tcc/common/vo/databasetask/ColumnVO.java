@@ -2,7 +2,6 @@ package br.com.ulbra.tcc.common.vo.databasetask;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * The ColumnVO Class
@@ -17,7 +16,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 	"regex"
 })
 
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class ColumnVO {
 
 	private String columnName;	

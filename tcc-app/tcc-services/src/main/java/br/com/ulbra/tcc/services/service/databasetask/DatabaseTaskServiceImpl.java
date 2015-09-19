@@ -38,8 +38,9 @@ public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 		try{
 			schemaVOs = databaseTaskDao.getSchemasFromDB();			
 		} catch(DataAccessException dae){
-			LOGGER.error("DataAccessException when getting tables from DB " + 
-					dae.getMessage(),dae);
+			LOGGER.error("DataAccessException when getting tables from DB[" + dae.getMessage() + "].",dae);
+		} catch (Exception exc) {
+			LOGGER.error("Exception when getting tables from DB[" + exc.getMessage() + "].",exc);
 		}
 		return schemaVOs;
 	}
@@ -50,19 +51,10 @@ public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 		try{
 			tableVO = databaseTaskDao.getColumnsFromTable(tableRequest.getSchema(), tableRequest.getTable());
 		} catch(DataAccessException dae){
-			LOGGER.error("DataAccessException when getting columns from table " + 
-					dae.getMessage(),dae);
+			LOGGER.error("DataAccessException when getting columns from table[" + dae.getMessage() + "].",dae);
+		} catch (Exception exc) {
+			LOGGER.error("Exception when getting columns from table[" + exc.getMessage() + "].",exc);
 		}
 		return tableVO;
-	}
-
-	public void processDataQualityTask(List<TableVO> tableVO) {
-		
-		for (TableVO vo : tableVO) {
-			if(vo != null){
-				
-			}
-		}
-		
 	}
 }

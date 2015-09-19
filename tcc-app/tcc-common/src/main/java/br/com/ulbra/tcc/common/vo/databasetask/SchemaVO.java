@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 
 /**
@@ -19,7 +18,6 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 	"tables"
 })
 
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class SchemaVO {
 
 	public SchemaVO() {}

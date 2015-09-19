@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.ulbra.tcc.common.dao.common.AbstractDao;
 import br.com.ulbra.tcc.common.dao.common.QueryTransformer;
-import br.com.ulbra.tcc.common.dao.constants.DaoConstants;
+import br.com.ulbra.tcc.common.dao.constants.CommonConstants;
 import br.com.ulbra.tcc.common.vo.databasetask.ColumnVO;
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
@@ -27,7 +27,7 @@ import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
  */
 
 @Repository
-public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> implements DatabaseTaskDao, DaoConstants{
+public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> implements DatabaseTaskDao, CommonConstants{
 
 	private static final String GET_SCHEMAS_QUERY = "SELECT table_schema " + 
 			"FROM information_schema.tables WHERE table_schema not in (?, ?);";

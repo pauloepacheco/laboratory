@@ -15,10 +15,6 @@ import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
 
 public interface DatabaseTaskService {
 	
-	List<SchemaVO> getInitialLoad();
-	
-	TableVO getColumnsFromTable(TableRequestWS tableRequest);
-	
-	void processDataQualityTask(List<TableVO> tableVO);
-
+	public List<SchemaVO> getInitialLoad();
+	public TableVO getColumnsFromTable(TableRequestWS tableRequest);
 }
