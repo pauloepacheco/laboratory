@@ -12,9 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import br.com.ulbra.tcc.common.constants.CommonConstants;
 import br.com.ulbra.tcc.common.dao.common.AbstractDao;
-import br.com.ulbra.tcc.common.dao.common.QueryTransformer;
-import br.com.ulbra.tcc.common.dao.constants.CommonConstants;
 import br.com.ulbra.tcc.common.vo.databasetask.ColumnVO;
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
@@ -39,7 +38,7 @@ public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> impleme
 			"FROM information_schema.columns WHERE table_name = ? AND table_schema = ?";
 	
 	@Autowired
-	private transient QueryTransformer queryTransformer;
+	private transient DataBaseTaskObjectMapper dataBaseTaskObjectMapper;
 	
 	public List<SchemaVO> getSchemasFromDB() throws DataAccessException {
 
@@ -88,10 +87,7 @@ public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> impleme
 			TableVO tableVO = new TableVO();
 			
 			for (Object result : resultList) {
-				
-				tableVO = queryTransformer.
-						transformResultsIntoTableVO(result);
-				
+				tableVO = dataBaseTaskObjectMapper.buildTableVO(result);
 				tableVOs.add(tableVO);
 			}
 		}	
@@ -119,8 +115,7 @@ public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> impleme
 			columnVOs = new ArrayList<ColumnVO>();
 			
 			for (Object result : resultList) {
-				columnVOs.add(queryTransformer.
-						transformResultsIntoColumnVO(result));
+				columnVOs.add(dataBaseTaskObjectMapper.buildColumnVO(result));
 			}
 			
 			tableVO.setColumnVOs(columnVOs);

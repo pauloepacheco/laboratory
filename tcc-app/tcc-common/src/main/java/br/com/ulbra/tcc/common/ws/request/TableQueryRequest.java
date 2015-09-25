@@ -1,9 +1,14 @@
 package br.com.ulbra.tcc.common.ws.request;
 
-public class TableRequestWS {
+/**
+ * The TableQueryRequest Class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
+public class TableQueryRequest {
 	
 	private String schema;
-	
 	private String table;
 
 	public String getSchema() {
