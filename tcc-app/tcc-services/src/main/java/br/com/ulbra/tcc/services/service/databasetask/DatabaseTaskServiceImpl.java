@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.ulbra.tcc.common.dao.databasetask.DatabaseTaskDao;
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
-import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
+import br.com.ulbra.tcc.common.ws.request.TableQueryRequest;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
 
 /**
@@ -45,7 +45,7 @@ public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 		return schemaVOs;
 	}
 
-	public TableVO getColumnsFromTable(TableRequestWS tableRequest) {
+	public TableVO getColumnsFromTable(TableQueryRequest tableRequest) {
 		TableVO tableVO = null;
 		
 		try{

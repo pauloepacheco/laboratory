@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
-import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
+import br.com.ulbra.tcc.common.ws.request.TableQueryRequest;
 
 /**
  * The DatabaseTaskService Interface
@@ -16,5 +16,5 @@ import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
 public interface DatabaseTaskService {
 	
 	public List<SchemaVO> getInitialLoad();
-	public TableVO getColumnsFromTable(TableRequestWS tableRequest);
+	public TableVO getColumnsFromTable(TableQueryRequest tableRequest);
 }

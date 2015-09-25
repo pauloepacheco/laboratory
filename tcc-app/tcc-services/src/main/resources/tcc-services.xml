@@ -13,6 +13,6 @@
 
   <import resource="classpath:tcc-common.xml"/>
   <tx:annotation-driven />
-  <context:component-scan base-package="br.com.ulbra.tcc.services.service.*" />    
+  <context:component-scan base-package="br.com.ulbra.tcc.services.service*" />    
 
 </beans>

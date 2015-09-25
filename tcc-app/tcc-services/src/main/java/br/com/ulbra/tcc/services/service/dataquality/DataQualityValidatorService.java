@@ -3,7 +3,7 @@ package br.com.ulbra.tcc.services.service.dataquality;
 import java.util.List;
 
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
-import br.com.ulbra.tcc.common.ws.response.DataQualityValidatorResponse;
+import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorVO;
 
 /**
  * The DataQualityValidatorService Interface
@@ -13,5 +13,6 @@ import br.com.ulbra.tcc.common.ws.response.DataQualityValidatorResponse;
  */
 public interface DataQualityValidatorService {
 
-	public DataQualityValidatorResponse processDataQualityRequest(List<TableVO> tableVOList);
+	public List<DataQualityValidatorVO> performCustomValidations(List<TableVO> tableVOs);
+	
 }

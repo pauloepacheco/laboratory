@@ -1,7 +1,9 @@
 package br.com.ulbra.tcc.services.service.dataquality;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.ulbra.tcc.common.dao.common.QueryTransformer;
-import br.com.ulbra.tcc.common.dao.constants.CommonConstants;
-import br.com.ulbra.tcc.common.dao.databasetask.DataQualityValidatorDao;
+import br.com.ulbra.tcc.common.constants.CommonConstants;
+import br.com.ulbra.tcc.common.dao.dataquality.DataQualityValidatorDao;
 import br.com.ulbra.tcc.common.vo.databasetask.ColumnVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
-import br.com.ulbra.tcc.common.ws.response.DataQualityValidatorResponse;
+import br.com.ulbra.tcc.common.vo.dataquality.ColumnRegexVO;
+import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorVO;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
 import br.com.ulbra.tcc.services.service.databasetask.DatabaseTaskServiceImpl;
 
@@ -34,39 +36,52 @@ public class DataQualityValidatorServiceImpl implements DataQualityValidatorServ
 	private transient DataQualityValidatorDao dataQualityValidatorDao;
 	
 	@Autowired
-	private transient QueryTransformer queryTransformer;
-
+	private transient DataQualityObjectMapper dataQualityObjectMapper;
+	
 	@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
-	public DataQualityValidatorResponse processDataQualityRequest(List<TableVO> tableVOList) {
+	public List<DataQualityValidatorVO> performCustomValidations(List<TableVO> tableVOs) {
 
 		final String sqlPattern = "SELECT [columns] FROM [schema].[table];";
-		String sql = null;
-		StringBuilder sqlColumnBuilder = new StringBuilder();
-		List<Object> daoResponse = new ArrayList<Object>();
-		String columns = null;
+		List<Object> queryRows = new ArrayList<Object>();
+		List<DataQualityValidatorVO> dataQualityValidatorVOs = new ArrayList<DataQualityValidatorVO>();
+		ColumnRegexVO columnRegexVO = null;		
 		
-		for (TableVO tableVO : tableVOList) {
-			if(tableVO != null){				
-				sqlColumnBuilder.setLength(0);
-				for (ColumnVO columnVO : tableVO.getColumnVOs()) {
-					if(columnVO.getRegex() != null && !columnVO.getRegex().isEmpty()){
-						sqlColumnBuilder.append(columnVO.getColumnName());
-						sqlColumnBuilder.append(CommonConstants.COMMA);
-					}
+		for (TableVO tableVO : tableVOs) {
+			if(tableVO != null){
+				
+				columnRegexVO = buildDinamicSQLColumns(tableVO);
+				
+				if(columnRegexVO == null){
+					continue;
 				}
-				sqlColumnBuilder.deleteCharAt(sqlColumnBuilder.length() - 1);
-				columns = sqlColumnBuilder.toString();
 				
-				sql = sqlPattern.replace("[columns]", columns).replace("[schema]", 
-						tableVO.getSchema()).replace("[table]", tableVO.getTableName());
+				final String sqlStatement = sqlPattern.
+						replace("[columns]", columnRegexVO.getSqlColumns()).
+						replace("[schema]", tableVO.getSchema()).
+						replace("[table]", tableVO.getTableName());
 				
-				LOGGER.info("SQL query to be performed[" + sql + "].");
+				LOGGER.info("SQL query to be performed[" + sqlStatement + "].");
+				
 				try{
-					daoResponse = dataQualityValidatorDao.processDataQualityRequest(sql);
+					queryRows = dataQualityValidatorDao.processDataQualityRequest(sqlStatement);
 					
-					if(daoResponse != null && !daoResponse.isEmpty()){
-						queryTransformer.buildDataQualityValidatorResponse(daoResponse, tableVO.getSchema(), 
-								tableVO.getTableName(), columns);
+					if(queryRows != null && !queryRows.isEmpty()){
+						
+						Map<String, Object> parameters = new HashMap<String, Object>();
+						parameters.put("rows", queryRows);
+						parameters.put("table", tableVO.getTableName());
+						parameters.put("schema", tableVO.getSchema());
+						parameters.put("columns", columnRegexVO.getSqlColumns());
+						parameters.put("regexByColumn", columnRegexVO.getRegex());						
+						
+						DataQualityValidatorVO response = dataQualityObjectMapper.buildDataQualityValidatorVO(parameters);
+						
+						if(response != null){
+							dataQualityValidatorVOs.add(response);	
+						}
+						
+					} else {
+						LOGGER.info("No results found for above SQL statement");
 					}
 				} catch(DataAccessException dae){
 					LOGGER.error("DataAccessException ocurred when executing data quality validator.", dae);
@@ -75,6 +90,32 @@ public class DataQualityValidatorServiceImpl implements DataQualityValidatorServ
 				}
 			}
 		}			
-		return null;
-	}	
+		return dataQualityValidatorVOs;
+	}
+	
+	private ColumnRegexVO buildDinamicSQLColumns(final TableVO tableVO){
+				
+		StringBuilder sqlColumnBuilder = new StringBuilder();
+		List<String> tempRegexList = new ArrayList<String>();
+		ColumnRegexVO columnRegexVO = null;
+		
+		for (ColumnVO columnVO : tableVO.getColumnVOs()) {
+			
+			if(columnVO.getRegex() != null && !columnVO.getRegex().isEmpty()){
+				sqlColumnBuilder.append(columnVO.getColumnName());
+				sqlColumnBuilder.append(CommonConstants.COMMA);
+				tempRegexList.add(columnVO.getRegex());
+			}
+		}
+		
+		if(sqlColumnBuilder.length() > 0){
+			sqlColumnBuilder.deleteCharAt(sqlColumnBuilder.length() - 1);
+			
+			columnRegexVO = new ColumnRegexVO();
+			columnRegexVO.setRegex(tempRegexList);
+			columnRegexVO.setSqlColumns(sqlColumnBuilder.toString());
+			return columnRegexVO;
+		}
+		return columnRegexVO;
+	}
 }
