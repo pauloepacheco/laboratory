@@ -1,7 +1,7 @@
 package br.com.ulbra.tcc.restapi.resources;
 
 import javax.ws.rs.core.Response;
-import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
+import br.com.ulbra.tcc.common.ws.request.TableQueryRequest;
 
 /**
  * The DataBaseTaskResource Interface
@@ -13,5 +13,5 @@ public interface DataBaseTaskResource {
 
 	public Response getTableDetails();
 	
-	public Response getColumns(TableRequestWS requestWS);
+	public Response getColumns(TableQueryRequest requestWS);
 }

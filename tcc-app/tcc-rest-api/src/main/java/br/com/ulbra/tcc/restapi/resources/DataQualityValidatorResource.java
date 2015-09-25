@@ -14,5 +14,5 @@ import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
  */
 public interface DataQualityValidatorResource {
 
-	public Response processRequest(List<TableVO> request);
+	public Response processRequest(List<TableVO> tableVOs);
 }

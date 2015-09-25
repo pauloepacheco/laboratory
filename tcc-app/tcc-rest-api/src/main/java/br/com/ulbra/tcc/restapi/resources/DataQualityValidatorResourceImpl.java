@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
+import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorVO;
 import br.com.ulbra.tcc.restapi.constants.URIResourceBuilder;
 import br.com.ulbra.tcc.services.common.ServiceLocator;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
@@ -33,14 +34,16 @@ public class DataQualityValidatorResourceImpl implements DataQualityValidatorRes
 	@Path(URIResourceBuilder.DataQualityValidatorResource.DATA_QUALITY_REQUEST)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response processRequest(List<TableVO> request){
+	public Response processRequest(List<TableVO> tableVOs){
 		
 		final DataQualityValidatorService dataQualityValidatorService = ServiceLocator.
 				getServiceInstance(ServiceBuilder.DATA_QUALITY_VALIDATOR, DataQualityValidatorService.class);
 		
 		LOGGER.info("Data quality validation request initiated");
 		
-		dataQualityValidatorService.processDataQualityRequest(request);
+		List<DataQualityValidatorVO> response = dataQualityValidatorService.
+				performCustomValidations(tableVOs);
+		
 		return null;		
 	}
 }

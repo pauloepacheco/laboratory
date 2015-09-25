@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
-import br.com.ulbra.tcc.common.ws.request.TableRequestWS;
+import br.com.ulbra.tcc.common.ws.request.TableQueryRequest;
 import br.com.ulbra.tcc.restapi.constants.URIResourceBuilder;
 import br.com.ulbra.tcc.services.common.ServiceLocator;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
@@ -50,7 +50,7 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 	@Path(URIResourceBuilder.DataBaseTaskResource.GET_COLUMNS_URI)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getColumns(TableRequestWS requestWS) {
+	public Response getColumns(TableQueryRequest requestWS) {
 
 		final DatabaseTaskService dbTaskService = ServiceLocator.
 				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
