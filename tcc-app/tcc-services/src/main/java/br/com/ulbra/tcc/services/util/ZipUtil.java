@@ -26,10 +26,6 @@ public class ZipUtil {
         new ZipUtil().zipDirectory(dir, dest);;
     }
     
-    public static void main(String[] args) {
-    	compressArchive("C:\\TCC\\home", "C:\\TCC\\home\\zip.zip");
-	}
-    
     /**
      * This method zips the directory
      * @param dir
