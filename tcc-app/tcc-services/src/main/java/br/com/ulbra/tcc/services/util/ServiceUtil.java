@@ -1,10 +1,16 @@
-package br.com.ulbra.tcc.services.common;
+package br.com.ulbra.tcc.services.util;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The ServiceUtil class
+ * 
+ * @author Paulo Pacheco
+ *
+ */
 public class ServiceUtil {
 
 	public static List<Character> getFailedRegexChars(String regex, String data){
