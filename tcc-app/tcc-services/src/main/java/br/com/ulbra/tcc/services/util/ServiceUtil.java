@@ -1,5 +1,6 @@
 package br.com.ulbra.tcc.services.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -33,4 +34,16 @@ public class ServiceUtil {
 		}
 		return failedChars;
 	}
+	
+	public static void recursiveDelete(File file) {
+        if (!file.exists()){
+            return;
+        }
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                recursiveDelete(f);
+            }
+        }
+        file.delete();
+    }
 }

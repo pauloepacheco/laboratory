@@ -12,7 +12,7 @@ import br.com.ulbra.tcc.common.dao.common.DaoUtil;
 import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorColumnRowVO;
 import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorColumnVO;
 import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorVO;
-import br.com.ulbra.tcc.services.common.ServiceUtil;
+import br.com.ulbra.tcc.services.util.ServiceUtil;
 
 /**
  * The DataQualityObjectMapper Class
@@ -47,16 +47,22 @@ public class DataQualityObjectMapper {
 			for (String row : entry.getValue()) {
 				
 				List<Character> failedChars = ServiceUtil.getFailedRegexChars(regex, row);
-				dataQualityValidatorColumnRowVO = new DataQualityValidatorColumnRowVO();
-				dataQualityValidatorColumnRowVO.setFailedChars(failedChars);
-				dataQualityValidatorColumnRowVO.setRow(row);
-				dataQualityValidatorColumnRowVOs.add(dataQualityValidatorColumnRowVO);
+				
+				//needs to add only the failed records
+				if(!failedChars.isEmpty()){
+					dataQualityValidatorColumnRowVO = new DataQualityValidatorColumnRowVO();
+					dataQualityValidatorColumnRowVO.setFailedChars(failedChars);
+					dataQualityValidatorColumnRowVO.setRow(row);
+					dataQualityValidatorColumnRowVOs.add(dataQualityValidatorColumnRowVO);
+				}
 			}
 			
-			dataQualityValidatorColumnVO = new DataQualityValidatorColumnVO();
-			dataQualityValidatorColumnVO.setColumn(entry.getKey());
-			dataQualityValidatorColumnVO.setDataQualityValidatorColumnRowVOs(dataQualityValidatorColumnRowVOs);
-			dataQualityValidatorColumnVOs.add(dataQualityValidatorColumnVO);
+			if(!dataQualityValidatorColumnRowVOs.isEmpty()){
+				dataQualityValidatorColumnVO = new DataQualityValidatorColumnVO();
+				dataQualityValidatorColumnVO.setColumn(entry.getKey());
+				dataQualityValidatorColumnVO.setDataQualityValidatorColumnRowVOs(dataQualityValidatorColumnRowVOs);
+				dataQualityValidatorColumnVOs.add(dataQualityValidatorColumnVO);
+			}
 			columnIndex ++;
 		}
 		

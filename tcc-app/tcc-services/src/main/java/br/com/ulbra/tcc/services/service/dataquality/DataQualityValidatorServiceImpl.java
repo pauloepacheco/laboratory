@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ulbra.tcc.common.constants.CommonConstants;
 import br.com.ulbra.tcc.common.dao.dataquality.DataQualityValidatorDao;
+import br.com.ulbra.tcc.common.exception.TCCBusinessException;
+import br.com.ulbra.tcc.common.exception.TCCTechnicalException;
 import br.com.ulbra.tcc.common.vo.databasetask.ColumnVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 import br.com.ulbra.tcc.common.vo.dataquality.ColumnRegexVO;
@@ -39,7 +41,8 @@ public class DataQualityValidatorServiceImpl implements DataQualityValidatorServ
 	private transient DataQualityObjectMapper dataQualityObjectMapper;
 	
 	@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
-	public List<DataQualityValidatorVO> performCustomValidations(List<TableVO> tableVOs) {
+	public List<DataQualityValidatorVO> performCustomValidations(List<TableVO> tableVOs) 
+			throws TCCTechnicalException, TCCBusinessException{
 
 		final String sqlPattern = "SELECT [columns] FROM [schema].[table];";
 		List<Object> queryRows = new ArrayList<Object>();
@@ -85,8 +88,10 @@ public class DataQualityValidatorServiceImpl implements DataQualityValidatorServ
 					}
 				} catch(DataAccessException dae){
 					LOGGER.error("DataAccessException ocurred when executing data quality validator.", dae);
+					throw new TCCTechnicalException("An error ocorred when trying to access information from database.", dae);
 				} catch (Exception exc) {
 					LOGGER.error("Exception ocurred when executing data quality validator.", exc);
+					throw new TCCTechnicalException("Unexpected error ocorred when executing custom validations.", exc);
 				}
 			}
 		}			

@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ulbra.tcc.common.dao.databasetask.DatabaseTaskDao;
+import br.com.ulbra.tcc.common.exception.TCCBusinessException;
+import br.com.ulbra.tcc.common.exception.TCCTechnicalException;
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 import br.com.ulbra.tcc.common.ws.request.TableQueryRequest;
@@ -31,29 +33,36 @@ public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 	private transient DatabaseTaskDao databaseTaskDao;
 
 	@Transactional(readOnly=true, propagation=Propagation.REQUIRED)
-	public List<SchemaVO> getInitialLoad() {		
+	public List<SchemaVO> getInitialLoad() throws TCCTechnicalException, TCCBusinessException {		
 		
 		List<SchemaVO> schemaVOs = null;
 		
 		try{
-			schemaVOs = databaseTaskDao.getSchemasFromDB();			
-		} catch(DataAccessException dae){
+			schemaVOs = databaseTaskDao.getSchemasFromDB();
+			
+		} catch(DataAccessException dae){			
 			LOGGER.error("DataAccessException when getting tables from DB[" + dae.getMessage() + "].",dae);
+			throw new TCCTechnicalException("An error ocorred when trying to get tables from database.", dae);
+			
 		} catch (Exception exc) {
 			LOGGER.error("Exception when getting tables from DB[" + exc.getMessage() + "].",exc);
+			throw new TCCTechnicalException("Unexpected error ocorred when trying to get tables from database.", exc);
 		}
 		return schemaVOs;
 	}
 
-	public TableVO getColumnsFromTable(TableQueryRequest tableRequest) {
-		TableVO tableVO = null;
+	public TableVO getColumnsFromTable(TableQueryRequest tableRequest) throws TCCTechnicalException, TCCBusinessException {
 		
+		TableVO tableVO = null;
 		try{
 			tableVO = databaseTaskDao.getColumnsFromTable(tableRequest.getSchema(), tableRequest.getTable());
+			
 		} catch(DataAccessException dae){
 			LOGGER.error("DataAccessException when getting columns from table[" + dae.getMessage() + "].",dae);
+			throw new TCCTechnicalException("An error ocorred when trying to get columns for table.", dae);
 		} catch (Exception exc) {
 			LOGGER.error("Exception when getting columns from table[" + exc.getMessage() + "].",exc);
+			throw new TCCTechnicalException("Unexpected error ocorred when trying to get columns for table.", exc);
 		}
 		return tableVO;
 	}

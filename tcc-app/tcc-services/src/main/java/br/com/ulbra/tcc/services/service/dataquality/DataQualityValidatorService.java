@@ -2,6 +2,8 @@ package br.com.ulbra.tcc.services.service.dataquality;
 
 import java.util.List;
 
+import br.com.ulbra.tcc.common.exception.TCCBusinessException;
+import br.com.ulbra.tcc.common.exception.TCCTechnicalException;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorVO;
 
@@ -13,6 +15,7 @@ import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorVO;
  */
 public interface DataQualityValidatorService {
 
-	public List<DataQualityValidatorVO> performCustomValidations(List<TableVO> tableVOs);
+	public List<DataQualityValidatorVO> performCustomValidations(List<TableVO> tableVOs) 
+			throws TCCTechnicalException, TCCBusinessException;
 	
 }
