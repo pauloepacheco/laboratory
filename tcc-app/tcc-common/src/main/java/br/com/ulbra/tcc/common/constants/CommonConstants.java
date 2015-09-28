@@ -10,6 +10,7 @@ public interface CommonConstants {
 	
 	static final String DOT = ".";
 	static final String COMMA = ",";
+	static final String ESCAPE_DOT = "\\.";
 	
 	public interface PostgressSchema {
 		

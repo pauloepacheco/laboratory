@@ -8,4 +8,16 @@ public class DaoUtil {
 		return schema.concat(CommonConstants.DOT).concat(table).
 				concat(CommonConstants.DOT).concat(column);
 	}
+	
+	public static String getSchemaFromColumnKey(String key){
+		return key.split(CommonConstants.ESCAPE_DOT)[0];
+	}
+	
+	public static String getTableFromColumnKey(String key){
+		return key.split(CommonConstants.ESCAPE_DOT)[1];
+	}
+	
+	public static String getColumnFromColumnKey(String key){
+		return key.split(CommonConstants.ESCAPE_DOT)[2];
+	}
 }
