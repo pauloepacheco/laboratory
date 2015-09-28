@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
+import br.com.ulbra.tcc.common.exception.TCCWebServiceException;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 
 /**
@@ -14,5 +15,5 @@ import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
  */
 public interface DataQualityValidatorResource {
 
-	public Response processRequest(List<TableVO> tableVOs);
+	public Response processRequest(List<TableVO> tableVOs) throws TCCWebServiceException;
 }

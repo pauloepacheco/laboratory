@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import br.com.ulbra.tcc.common.exception.TCCWebServiceException;
 import br.com.ulbra.tcc.restapi.constants.URIResourceBuilder;
 import br.com.ulbra.tcc.restapi.util.RegexUtil;
 
@@ -28,7 +29,7 @@ public class CommonResourceImpl implements CommonResource {
 	@POST
 	@Path(URIResourceBuilder.CommonResource.VALIDATOR_REGEX_URI)	
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response validateRegex(String regex) {
+	public Response validateRegex(String regex) throws TCCWebServiceException {
 		
 		JSONObject json = new JSONObject();
 		try {
@@ -40,8 +41,9 @@ public class CommonResourceImpl implements CommonResource {
 			
 		} catch (JSONException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		} catch (Exception exc) {
+			throw new TCCWebServiceException("Unexpected error ocorred when trying to validate regular expression.", exc);
 		}
-		
 		return Response.ok().entity(json.toString()).build();
 	}
 }

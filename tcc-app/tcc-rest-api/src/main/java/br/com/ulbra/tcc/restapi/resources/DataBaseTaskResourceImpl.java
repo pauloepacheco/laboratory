@@ -12,6 +12,9 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 
+import br.com.ulbra.tcc.common.exception.TCCBusinessException;
+import br.com.ulbra.tcc.common.exception.TCCTechnicalException;
+import br.com.ulbra.tcc.common.exception.TCCWebServiceException;
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 import br.com.ulbra.tcc.common.ws.request.TableQueryRequest;
@@ -35,14 +38,23 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 	@POST
 	@Path(URIResourceBuilder.DataBaseTaskResource.GET_DB_INFO_URI)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTableDetails(){
+	public Response getTableDetails() throws TCCWebServiceException{
 		
 		final DatabaseTaskService dbTaskService = ServiceLocator.
 				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
 		
+		List<SchemaVO> schemaVOList = null;
 		LOGGER.info("Getting table details to start application");
 			
-		List<SchemaVO> schemaVOList = dbTaskService.getInitialLoad();
+		try{
+			schemaVOList = dbTaskService.getInitialLoad();
+			
+		} catch(TCCBusinessException tbe){
+			throw new TCCWebServiceException(tbe.getMessage(), tbe);
+			
+		} catch (TCCTechnicalException tte) {
+			throw new TCCWebServiceException(tte.getMessage(), tte);
+		}
 		return Response.status(200).entity(schemaVOList).build();		
 	}
 	
@@ -50,7 +62,7 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 	@Path(URIResourceBuilder.DataBaseTaskResource.GET_COLUMNS_URI)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getColumns(TableQueryRequest requestWS) {
+	public Response getColumns(TableQueryRequest requestWS) throws TCCWebServiceException {
 
 		final DatabaseTaskService dbTaskService = ServiceLocator.
 				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
@@ -59,7 +71,13 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 		
 		if(requestWS != null){
 			LOGGER.debug("Getting column for table[" + requestWS.getTable() + "].");
-			tableVO = dbTaskService.getColumnsFromTable(requestWS);
+			try{
+				tableVO = dbTaskService.getColumnsFromTable(requestWS);
+			} catch(TCCBusinessException tbe){
+				throw new TCCWebServiceException(tbe.getMessage());
+			} catch (TCCTechnicalException tte) {
+				throw new TCCWebServiceException(tte.getMessage());
+			}
 		} else {
 			LOGGER.debug("Parameters to get columns for table are invalid.");
 			return Response.status(Status.BAD_REQUEST).build();
