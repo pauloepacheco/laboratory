@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 		try{
 			user = userDao.findUserById(userId);
 		} catch (DataAccessException dae){
-			LOGGER.error("DataAccessException ocorred when trying to get user by id " +
+			LOGGER.error("DataAccessException occurred when trying to get user by id " +
 					dae.getLocalizedMessage(), dae);
 		}
 		return user;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 		try{			
 			users = userDao.getAllRegisteredUsers();
 		} catch (DataAccessException dae){
-			LOGGER.error("DataAccessException ocorred when trying to get the list " +
+			LOGGER.error("DataAccessException occurred when trying to get the list " +
 					"of registered users " + dae.getLocalizedMessage(), dae);
 		}
 		return users;		

@@ -9,6 +9,8 @@ import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorVO;
 
 public interface DataQualityReportGenerator {
 
-	public DataQualityReportVO startReportGeneration(final List<DataQualityValidatorVO> dataQualityValidatorVOs)
-		throws TCCTechnicalException, TCCBusinessException;
+	public DataQualityReportVO startReportGeneration(final List<DataQualityValidatorVO> dataQualityValidatorVOs) 
+			throws TCCTechnicalException, TCCBusinessException;
+	
+	public String getDownloadReportPath(String id) throws TCCTechnicalException, TCCBusinessException;
 }

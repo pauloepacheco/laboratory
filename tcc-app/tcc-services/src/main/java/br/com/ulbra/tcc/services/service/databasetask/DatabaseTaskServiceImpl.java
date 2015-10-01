@@ -42,11 +42,11 @@ public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 			
 		} catch(DataAccessException dae){			
 			LOGGER.error("DataAccessException when getting tables from DB[" + dae.getMessage() + "].",dae);
-			throw new TCCTechnicalException("An error ocorred when trying to get tables from database.", dae);
+			throw new TCCTechnicalException("An error occurred when trying to get tables from database.", dae);
 			
 		} catch (Exception exc) {
 			LOGGER.error("Exception when getting tables from DB[" + exc.getMessage() + "].",exc);
-			throw new TCCTechnicalException("Unexpected error ocorred when trying to get tables from database.", exc);
+			throw new TCCTechnicalException("Unexpected error occurred when trying to get tables from database.", exc);
 		}
 		return schemaVOs;
 	}
@@ -59,10 +59,10 @@ public class DatabaseTaskServiceImpl implements DatabaseTaskService {
 			
 		} catch(DataAccessException dae){
 			LOGGER.error("DataAccessException when getting columns from table[" + dae.getMessage() + "].",dae);
-			throw new TCCTechnicalException("An error ocorred when trying to get columns for table.", dae);
+			throw new TCCTechnicalException("An error occurred when trying to get columns for table.", dae);
 		} catch (Exception exc) {
 			LOGGER.error("Exception when getting columns from table[" + exc.getMessage() + "].",exc);
-			throw new TCCTechnicalException("Unexpected error ocorred when trying to get columns for table.", exc);
+			throw new TCCTechnicalException("Unexpected error occurred when trying to get columns for table.", exc);
 		}
 		return tableVO;
 	}

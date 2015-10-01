@@ -88,10 +88,10 @@ public class DataQualityValidatorServiceImpl implements DataQualityValidatorServ
 					}
 				} catch(DataAccessException dae){
 					LOGGER.error("DataAccessException ocurred when executing data quality validator.", dae);
-					throw new TCCTechnicalException("An error ocorred when trying to access information from database.", dae);
+					throw new TCCTechnicalException("An error occurred when trying to access information from database.", dae);
 				} catch (Exception exc) {
 					LOGGER.error("Exception ocurred when executing data quality validator.", exc);
-					throw new TCCTechnicalException("Unexpected error ocorred when executing custom validations.", exc);
+					throw new TCCTechnicalException("Unexpected error occurred when executing custom validations.", exc);
 				}
 			}
 		}			
