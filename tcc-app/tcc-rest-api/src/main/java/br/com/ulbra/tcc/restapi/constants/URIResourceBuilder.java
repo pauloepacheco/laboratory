@@ -31,5 +31,6 @@ public interface URIResourceBuilder {
 	public interface DataQualityValidatorResource{
 		static final String DATA_QUALITY_URI = "/ws/dataquality";
 		static final String DATA_QUALITY_REQUEST = "/process";
+		static final String DATA_QUALITY_DOWNLOAD_ZIP = "/download/{id}";
 	}
 }

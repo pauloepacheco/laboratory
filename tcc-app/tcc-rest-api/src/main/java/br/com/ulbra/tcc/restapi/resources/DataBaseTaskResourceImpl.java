@@ -18,7 +18,7 @@ import br.com.ulbra.tcc.common.exception.TCCWebServiceException;
 import br.com.ulbra.tcc.common.vo.databasetask.SchemaVO;
 import br.com.ulbra.tcc.common.vo.databasetask.TableVO;
 import br.com.ulbra.tcc.common.ws.request.TableQueryRequest;
-import br.com.ulbra.tcc.restapi.constants.URIResourceBuilder;
+import br.com.ulbra.tcc.restapi.constants.URIResourceBuilder.DataBaseTaskResource;
 import br.com.ulbra.tcc.services.common.ServiceLocator;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
 import br.com.ulbra.tcc.services.service.databasetask.DatabaseTaskService;
@@ -30,13 +30,13 @@ import br.com.ulbra.tcc.services.service.databasetask.DatabaseTaskService;
  *
  */
 
-@Path(URIResourceBuilder.DataBaseTaskResource.DATA_BASE_URI)
+@Path(DataBaseTaskResource.DATA_BASE_URI)
 public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 
 	private static final Logger LOGGER = Logger.getLogger(DataBaseTaskResourceImpl.class);
 	
 	@POST
-	@Path(URIResourceBuilder.DataBaseTaskResource.GET_DB_INFO_URI)
+	@Path(DataBaseTaskResource.GET_DB_INFO_URI)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTableDetails() throws TCCWebServiceException{
 		
@@ -59,7 +59,7 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 	}
 	
 	@POST
-	@Path(URIResourceBuilder.DataBaseTaskResource.GET_COLUMNS_URI)
+	@Path(DataBaseTaskResource.GET_COLUMNS_URI)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getColumns(TableQueryRequest requestWS) throws TCCWebServiceException {

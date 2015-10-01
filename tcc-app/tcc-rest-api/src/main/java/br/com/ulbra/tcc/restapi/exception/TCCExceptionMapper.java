@@ -8,8 +8,11 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.apache.log4j.Logger;
+
 import br.com.ulbra.tcc.common.exception.ErrorMessage;
 import br.com.ulbra.tcc.common.exception.TCCWebServiceException;
+import br.com.ulbra.tcc.restapi.constants.WSConstants.WSException;
 
 /**
  * The TCCExceptionMapper Class
@@ -18,13 +21,22 @@ import br.com.ulbra.tcc.common.exception.TCCWebServiceException;
  *
  */
 @Provider
-public class TCCExceptionMapper implements ExceptionMapper<TCCWebServiceException> {
+public class TCCExceptionMapper implements ExceptionMapper<Exception> {
 
-	public Response toResponse(TCCWebServiceException exception) {
+	private static final Logger LOGGER = Logger.getLogger(TCCExceptionMapper.class);
+	
+	public Response toResponse(Exception exception) {
+		
+		LOGGER.error("An error throwed from REST API", exception);
 		
 		ErrorMessage errorMessage = new ErrorMessage();
 		errorMessage.setDeveloperMessage(getStackTraceStringFromThrowable(exception));
-		errorMessage.setMessage(exception.getMessage());
+		
+		if(exception instanceof TCCWebServiceException){
+			errorMessage.setMessage(exception.getMessage());
+		} else {
+			errorMessage.setMessage(WSException.TECHNICAL_ERROR);
+		}
 		
 		return Response.status(Status.INTERNAL_SERVER_ERROR).
 				entity(errorMessage).build();
