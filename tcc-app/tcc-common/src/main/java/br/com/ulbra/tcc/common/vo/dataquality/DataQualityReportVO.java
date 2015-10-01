@@ -8,16 +8,16 @@ package br.com.ulbra.tcc.common.vo.dataquality;
  */
 public class DataQualityReportVO {
 
-	private String reportZipFolderPath;
+	private String reportId;
 	private String reportName;
 	private boolean reportAvailable;
 
-	public String getReportZipFolderPath() {
-		return reportZipFolderPath;
+	public String getReportId() {
+		return reportId;
 	}
 
-	public void setReportZipFolderPath(String reportZipFolderPath) {
-		this.reportZipFolderPath = reportZipFolderPath;
+	public void setReportId(String reportId) {
+		this.reportId = reportId;
 	}
 
 	public String getReportName() {
