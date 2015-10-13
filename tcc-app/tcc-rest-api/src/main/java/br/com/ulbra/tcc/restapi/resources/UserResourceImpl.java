@@ -1,4 +1,4 @@
-package br.com.ulbra.tcc.restapi.resouces;
+package br.com.ulbra.tcc.restapi.resources;
 
 import java.util.List;
 
