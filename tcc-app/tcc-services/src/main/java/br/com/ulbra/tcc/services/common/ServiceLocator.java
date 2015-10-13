@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import br.com.ulbra.tcc.common.exception.TCCTechnicalException;
+
 /**
  * The Service Locator Class
  * 
@@ -18,19 +20,18 @@ public class ServiceLocator {
 	
 	private static final Logger LOGGER = Logger.getLogger(ServiceLocator.class);
 	
-	public static <T> T getServiceInstance(String beanName, Class<T> clazz) {
+	public static <T> T getServiceInstance(String beanName, Class<T> clazz) throws TCCTechnicalException{
 		Object bean =  getInstance().getBean(beanName);
 		if(null == bean){
-			LOGGER.error("unable to locate service instance for the bean with name: " + beanName);
-			//TODO: throw Service Exception
+			LOGGER.error("Unable to locate service instance for the bean with name: " + beanName);
+			throw new TCCTechnicalException("An error occurred. Unable to load service instance. Please contact the System Administrator.");
 		}
 		
 		try{
 			return clazz.cast(bean);
 		}catch(ClassCastException ex){
-			LOGGER.error("wrong  combination of bean name and class type passed, bean name: " + beanName + " class:" + clazz.getName());
-			//TODO: throw Service Exception
-			return null;
+			LOGGER.error("Wrong  combination of bean name and class type passed, bean name: " + beanName + " class:" + clazz.getName());
+			throw new TCCTechnicalException("An error occurred. Unable to load service instance. Please contact the System Administrator.");
 		}		
 	}
 	
