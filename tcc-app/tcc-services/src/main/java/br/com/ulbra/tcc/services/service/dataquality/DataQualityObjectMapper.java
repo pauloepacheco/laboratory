@@ -39,13 +39,18 @@ public class DataQualityObjectMapper {
 		DataQualityValidatorColumnRowVO dataQualityValidatorColumnRowVO = null;
 		List<DataQualityValidatorColumnRowVO> dataQualityValidatorColumnRowVOs = null;		
 		
+		//goes thru all selected columns		
 		for (Map.Entry<String, List<String>> entry : columnRowMap.entrySet()){
 			
 			final String regex = regexArr[columnIndex];
 			dataQualityValidatorColumnRowVOs = new ArrayList<DataQualityValidatorColumnRowVO>();
 
-			for (String row : entry.getValue()) {
+			int numberOfRecords = 0;
+			
+			//goes thru all records for a given column
+			for (String row : entry.getValue()) { //records from db
 				
+				numberOfRecords++;
 				List<Character> failedChars = ServiceUtil.getFailedRegexChars(regex, row);
 				
 				//needs to add only the failed records
@@ -57,12 +62,13 @@ public class DataQualityObjectMapper {
 				}
 			}
 			
-			if(!dataQualityValidatorColumnRowVOs.isEmpty()){
-				dataQualityValidatorColumnVO = new DataQualityValidatorColumnVO();
-				dataQualityValidatorColumnVO.setColumn(entry.getKey());
-				dataQualityValidatorColumnVO.setDataQualityValidatorColumnRowVOs(dataQualityValidatorColumnRowVOs);
-				dataQualityValidatorColumnVOs.add(dataQualityValidatorColumnVO);
-			}
+			dataQualityValidatorColumnVO = new DataQualityValidatorColumnVO();
+			dataQualityValidatorColumnVO.setColumn(entry.getKey());
+			dataQualityValidatorColumnVO.setDataQualityValidatorColumnRowVOs(dataQualityValidatorColumnRowVOs);
+			dataQualityValidatorColumnVO.setTotalOfRecords(numberOfRecords);
+			dataQualityValidatorColumnVO.setRegex(regex);
+			dataQualityValidatorColumnVOs.add(dataQualityValidatorColumnVO);
+			
 			columnIndex ++;
 		}
 		

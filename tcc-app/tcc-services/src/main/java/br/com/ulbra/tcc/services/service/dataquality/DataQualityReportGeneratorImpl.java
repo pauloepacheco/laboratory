@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import br.com.ulbra.tcc.common.vo.dataquality.DataQualityValidatorVO;
 import br.com.ulbra.tcc.services.common.CommonPropertyConfig;
 import br.com.ulbra.tcc.services.constants.ServiceBuilder;
 import br.com.ulbra.tcc.services.service.databasetask.DatabaseTaskServiceImpl;
+import br.com.ulbra.tcc.services.util.ExportToExcel;
 import br.com.ulbra.tcc.services.util.ServiceUtil;
 import br.com.ulbra.tcc.services.util.ZipUtil;
 
@@ -43,8 +46,8 @@ public class DataQualityReportGeneratorImpl implements DataQualityReportGenerato
 	private static final String ZIP_EXT = ".zip";
 	private static final String REPORT_GENERATION_SUFFIX = "DQRG";
 	private static final String FAILED_STATUS = "FAILED";
-	private static final String OUTPUT_FILE_HEADER = "STATUS" + String.format("%50s", " ").replace(" ", " ") + "ROW";
-	private static final String OUTPUT_FILE_HEADER_BREAKLINE = String.format("%60s", " ").replace(" ", "-");
+	private static final String OUTPUT_FILE_HEADER = "STATUS" + String.format("%70s", " ").replace(" ", " ") + "ROW";
+	private static final String OUTPUT_FILE_HEADER_BREAKLINE = String.format("%80s", " ").replace(" ", "-");
 	private static final SimpleDateFormat SimpleDateFormat = new SimpleDateFormat(OUTPUT_FILE_DATE_FORMAT);
 	
 	@Autowired
@@ -62,42 +65,40 @@ public class DataQualityReportGeneratorImpl implements DataQualityReportGenerato
 			LOGGER.error("Cannot generate reports. Invalid path configuration.");
 			throw new TCCTechnicalException("A Technical error occurred. The directory configuration seems to be invalid.");
 		}
-		if(!isRecordAvailableToBeProcessed(dataQualityValidatorVOs)){
-			dataQualityReportVO.setReportAvailable(false);	
 			
-		} else {
-			
-			final String lineSeparator = System.getProperty("line.separator");
-			final String reportId = SimpleDateFormat.format(new Date());
-			
-			for (DataQualityValidatorVO dataQualityValidatorVO : dataQualityValidatorVOs) {
-				try {
-					writeFile(tempPath, dataQualityValidatorVO, lineSeparator, reportId);
-					
-				} catch (IOException ioe) {
-					LOGGER.error("Error when creating file.", ioe);
-					ServiceUtil.recursiveDelete(new File(tempPath));
-					throw new TCCTechnicalException("A Technical error occurred. Could not generate reports.", ioe);
-				}
-			}
-			
-			final String tempReportFolder = tempPath + File.separator + REPORT_GENERATION_SUFFIX + "_" + reportId;
-			final String compressDestFolder = tempReportFolder + ZIP_EXT;
-			
+		final String lineSeparator = System.getProperty("line.separator");
+		final String reportId = SimpleDateFormat.format(new Date());
+		
+		for (DataQualityValidatorVO dataQualityValidatorVO : dataQualityValidatorVOs) {
 			try {
-				compressWorkDir(tempReportFolder, compressDestFolder);
-				moveZipToSuccessFolder(compressDestFolder, successPath);
+				writeFile(tempPath, dataQualityValidatorVO, lineSeparator, reportId);
 				
 			} catch (IOException ioe) {
-				LOGGER.error("Error when compressing/deleting folder.", ioe);
-				ServiceUtil.recursiveDelete(new File(tempReportFolder));
+				LOGGER.error("Error when creating file.", ioe);
+				ServiceUtil.recursiveDelete(new File(tempPath));
 				throw new TCCTechnicalException("A Technical error occurred. Could not generate reports.", ioe);
 			}
-			
-			dataQualityReportVO.setReportId(reportId);
-			dataQualityReportVO.setReportName(reportId + ZIP_EXT);
-			dataQualityReportVO.setReportAvailable(true);
 		}
+		
+				
+		final String tempReportFolder = tempPath + File.separator + REPORT_GENERATION_SUFFIX + "_" + reportId;
+		final String compressDestFolder = tempReportFolder + ZIP_EXT;
+		
+		createExcelResume(dataQualityValidatorVOs, tempReportFolder);
+		
+		try {
+			compressWorkDir(tempReportFolder, compressDestFolder);
+			moveZipToSuccessFolder(compressDestFolder, successPath);
+			
+		} catch (IOException ioe) {
+			LOGGER.error("Error when compressing/deleting folder.", ioe);
+			ServiceUtil.recursiveDelete(new File(tempReportFolder));
+			throw new TCCTechnicalException("A Technical error occurred. Could not generate reports.", ioe);
+		}
+		
+		dataQualityReportVO.setReportId(reportId);
+		dataQualityReportVO.setReportName(reportId + ZIP_EXT);
+		dataQualityReportVO.setReportAvailable(true);
 		return dataQualityReportVO;
 	}
 	
@@ -150,7 +151,7 @@ public class DataQualityReportGeneratorImpl implements DataQualityReportGenerato
 			outputStream.write(OUTPUT_FILE_HEADER_BREAKLINE + lineSeparator);
 						
 			for (DataQualityValidatorColumnRowVO dataQualityValidatorColumnRowVO : dataQualityValidatorColumnVO.getDataQualityValidatorColumnRowVOs()) {
-				outputStream.write(FAILED_STATUS + String.format("%50s", " ").replace(" ", " ") + dataQualityValidatorColumnRowVO.getRow() + lineSeparator);
+				outputStream.write(FAILED_STATUS + String.format("%70s", " ").replace(" ", " ") + dataQualityValidatorColumnRowVO.getRow() + lineSeparator);
 				outputStream.write(dataQualityValidatorColumnRowVO.getFailedChars().toString() + lineSeparator + lineSeparator);
 			}
 			
@@ -205,15 +206,17 @@ public class DataQualityReportGeneratorImpl implements DataQualityReportGenerato
 		return false;
 	}
 	
-	private boolean isRecordAvailableToBeProcessed(final List<DataQualityValidatorVO> dataQualityValidatorVOs){
-		for (DataQualityValidatorVO dataQualityValidatorVO : dataQualityValidatorVOs) {
-			for (DataQualityValidatorColumnVO dataQualityValidatorColumnVOs : dataQualityValidatorVO.getDataQualityValidatorColumnVOs()) {
-				if(dataQualityValidatorColumnVOs.getDataQualityValidatorColumnRowVOs() != null && 
-						!dataQualityValidatorColumnVOs.getDataQualityValidatorColumnRowVOs().isEmpty()) {
-					return true;	
-				}
-			}
-		}		
-		return false;
+	private void createExcelResume(List<DataQualityValidatorVO> dataQualityValidatorVOs, final String tempPath) throws TCCTechnicalException, TCCBusinessException{
+		
+        Map<Integer, String> headersMap = new HashMap<Integer, String>();
+        headersMap.put(0, "Schema");
+        headersMap.put(1, "Table");
+        headersMap.put(2, "Column");
+        headersMap.put(3, "#Number of Records");
+        headersMap.put(4, "#Number of Failed Records");
+        headersMap.put(5, "%Failed Records");
+        headersMap.put(6, "Regular Expression");
+        
+        ExportToExcel.export(dataQualityValidatorVOs, headersMap, new File(tempPath));
 	}
 }
