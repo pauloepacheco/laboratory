@@ -38,20 +38,20 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 	@POST
 	@Path(DataBaseTaskResource.GET_DB_INFO_URI)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTableDetails() throws TCCWebServiceException{
-		
-		final DatabaseTaskService dbTaskService = ServiceLocator.
-				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
+	public Response getTableDetails() throws TCCWebServiceException {
 		
 		List<SchemaVO> schemaVOList = null;
-		LOGGER.info("Getting table details to start application");
-			
+		
 		try{
+			final DatabaseTaskService dbTaskService = ServiceLocator.
+				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
+		
+			LOGGER.info("Getting table details to start application");
+		
 			schemaVOList = dbTaskService.getInitialLoad();
 			
 		} catch(TCCBusinessException tbe){
 			throw new TCCWebServiceException(tbe.getMessage(), tbe);
-			
 		} catch (TCCTechnicalException tte) {
 			throw new TCCWebServiceException(tte.getMessage(), tte);
 		}
@@ -64,25 +64,25 @@ public class DataBaseTaskResourceImpl implements DataBaseTaskResource{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getColumns(TableQueryRequest requestWS) throws TCCWebServiceException {
 
-		final DatabaseTaskService dbTaskService = ServiceLocator.
-				getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
-		
 		TableVO tableVO = null;
 		
-		if(requestWS != null){
-			LOGGER.debug("Getting column for table[" + requestWS.getTable() + "].");
-			try{
-				tableVO = dbTaskService.getColumnsFromTable(requestWS);
-			} catch(TCCBusinessException tbe){
-				throw new TCCWebServiceException(tbe.getMessage());
-			} catch (TCCTechnicalException tte) {
-				throw new TCCWebServiceException(tte.getMessage());
-			}
-		} else {
-			LOGGER.debug("Parameters to get columns for table are invalid.");
-			return Response.status(Status.BAD_REQUEST).build();
-		}
+		try{
+			final DatabaseTaskService dbTaskService = ServiceLocator.
+					getServiceInstance(ServiceBuilder.DATABASE_TASK_SERVICE, DatabaseTaskService.class);
+			
+			if(requestWS != null){
+				LOGGER.debug("Getting column for table[" + requestWS.getTable() + "].");
+					tableVO = dbTaskService.getColumnsFromTable(requestWS);			
+			} else {
+				LOGGER.debug("Parameters to get columns for table are invalid.");
+				return Response.status(Status.BAD_REQUEST).build();
+			} 
 		
+		} catch(TCCBusinessException tbe){
+			throw new TCCWebServiceException(tbe.getMessage());
+		} catch (TCCTechnicalException tte) {
+			throw new TCCWebServiceException(tte.getMessage());
+		}
 		return Response.status(200).entity(tableVO).build();
 	}
 }

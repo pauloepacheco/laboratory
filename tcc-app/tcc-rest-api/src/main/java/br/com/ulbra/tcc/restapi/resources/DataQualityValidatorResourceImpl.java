@@ -49,20 +49,20 @@ public class DataQualityValidatorResourceImpl extends SpringBeanAutowiringSuppor
 		List<DataQualityValidatorVO> dataQualityValidatorVOs = null;
 		DataQualityReportVO dataQualityReportVO = null;
 		
-		final DataQualityValidatorService dataQualityValidatorService = ServiceLocator.
-				getServiceInstance(ServiceBuilder.DATA_QUALITY_VALIDATOR, DataQualityValidatorService.class);
-		
-		final DataQualityReportGenerator dataQualityReportGeneratorService = ServiceLocator.
-				getServiceInstance(ServiceBuilder.DATA_QUALITY_REPOR_GENERATOR, DataQualityReportGenerator.class);
-		
-		LOGGER.info("Data quality validation request initiated");
 		try{
+			final DataQualityValidatorService dataQualityValidatorService = ServiceLocator.
+					getServiceInstance(ServiceBuilder.DATA_QUALITY_VALIDATOR, DataQualityValidatorService.class);
+			
+			final DataQualityReportGenerator dataQualityReportGeneratorService = ServiceLocator.
+					getServiceInstance(ServiceBuilder.DATA_QUALITY_REPOR_GENERATOR, DataQualityReportGenerator.class);
+			
+			LOGGER.info("Data quality validation request initiated");
+		
 			dataQualityValidatorVOs = dataQualityValidatorService.performCustomValidations(tableVOs);
 			dataQualityReportVO = dataQualityReportGeneratorService.startReportGeneration(dataQualityValidatorVOs);
 			
 		} catch(TCCTechnicalException tte){
 			throw new TCCWebServiceException(tte.getMessage(), tte);
-			
 		} catch (TCCBusinessException tbe) {
 			throw new TCCWebServiceException(tbe.getMessage(), tbe);
 		}
@@ -75,16 +75,15 @@ public class DataQualityValidatorResourceImpl extends SpringBeanAutowiringSuppor
 	@Produces("application/zip")
 	public Response downloadZipFile(@PathParam("id") String reportId) throws TCCWebServiceException{
 		
-		final DataQualityReportGenerator dataQualityReportGeneratorService = ServiceLocator.
-				getServiceInstance(ServiceBuilder.DATA_QUALITY_REPOR_GENERATOR, DataQualityReportGenerator.class);
-		
 		String reportPath = null;
 		try{
+			final DataQualityReportGenerator dataQualityReportGeneratorService = ServiceLocator.
+					getServiceInstance(ServiceBuilder.DATA_QUALITY_REPOR_GENERATOR, DataQualityReportGenerator.class);
+			
 			reportPath = dataQualityReportGeneratorService.getDownloadReportPath(reportId);
 			
 		} catch(TCCTechnicalException tte){
 			throw new TCCWebServiceException(tte.getMessage(), tte);
-			
 		} catch (TCCBusinessException tbe) {
 			throw new TCCWebServiceException(tbe.getMessage(), tbe);
 		}
