@@ -10,7 +10,9 @@ import java.util.List;
  */
 public class DataQualityValidatorColumnVO {
 
-	private String column;	
+	private String column;		
+	private int totalOfRecords;
+	private String regex;
 	private List<DataQualityValidatorColumnRowVO> dataQualityValidatorColumnRowVOs;
 	
 	public String getColumn() {
@@ -18,7 +20,19 @@ public class DataQualityValidatorColumnVO {
 	}
 	public void setColumn(String column) {
 		this.column = column;
-	}	
+	}
+	public int getTotalOfRecords() {
+		return totalOfRecords;
+	}
+	public void setTotalOfRecords(int totalOfRecords) {
+		this.totalOfRecords = totalOfRecords;
+	}
+	public String getRegex() {
+		return regex;
+	}
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
 	public List<DataQualityValidatorColumnRowVO> getDataQualityValidatorColumnRowVOs() {
 		return dataQualityValidatorColumnRowVOs;
 	}
