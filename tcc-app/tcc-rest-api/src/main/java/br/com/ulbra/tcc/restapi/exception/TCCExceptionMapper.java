@@ -27,7 +27,7 @@ public class TCCExceptionMapper implements ExceptionMapper<Exception> {
 	
 	public Response toResponse(Exception exception) {
 		
-		LOGGER.error("An error throwed from REST API", exception);
+		LOGGER.error("An error was thrown from REST API", exception);
 		
 		ErrorMessage errorMessage = new ErrorMessage();
 		errorMessage.setDeveloperMessage(getStackTraceStringFromThrowable(exception));
