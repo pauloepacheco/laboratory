@@ -32,10 +32,10 @@ public class DatabaseTaskDaoImpl extends AbstractDao<Object, BigDecimal> impleme
 			"FROM information_schema.tables WHERE table_schema not in (?, ?);";
 	
 	private static final String GET_TABLES_QUERY = "SELECT table_name, table_schema " +
-			"FROM information_schema.tables WHERE table_schema = ?;";
+			"FROM information_schema.tables WHERE table_schema = ? ORDER BY table_schema, table_name;";
 	
 	private static final String GET_COLUMNS_FROM_TABLE_QUERY = "SELECT column_name, data_type " + 
-			"FROM information_schema.columns WHERE table_name = ? AND table_schema = ?";
+			"FROM information_schema.columns WHERE table_name = ? AND table_schema = ? ORDER BY column_name";
 	
 	@Autowired
 	private transient DataBaseTaskObjectMapper dataBaseTaskObjectMapper;
