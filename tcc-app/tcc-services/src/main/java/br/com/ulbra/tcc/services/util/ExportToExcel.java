@@ -75,7 +75,7 @@ public class ExportToExcel {
 	            		totalOfInvalid = dataQualityValidatorColumnVO.getDataQualityValidatorColumnRowVOs().size();
 	            	}
 	            	
-	            	float percentualOfInvalid = (totalOfInvalid * 100) / totalOfRecords;
+	            	float percentualOfInvalid = (float) (totalOfInvalid * 100) / totalOfRecords;
 	            	
 	            	Row row = spreadsheet.createRow(++rowIndex);		
 	            	row.createCell(cellIndex++).setCellValue(dataQualityValidatorVO.getSchema());
@@ -83,7 +83,7 @@ public class ExportToExcel {
 	            	row.createCell(cellIndex++).setCellValue(DaoUtil.getColumnFromColumnKey(dataQualityValidatorColumnVO.getColumn()));
 	            	row.createCell(cellIndex++).setCellValue(totalOfRecords);
 	            	row.createCell(cellIndex++).setCellValue(totalOfInvalid);
-	            	row.createCell(cellIndex++).setCellValue(percentualOfInvalid);
+	            	row.createCell(cellIndex++).setCellValue(String.format("%.2f",percentualOfInvalid) + " %");
 	            	row.createCell(cellIndex++).setCellValue(dataQualityValidatorColumnVO.getRegex());
 				}
 	        }
